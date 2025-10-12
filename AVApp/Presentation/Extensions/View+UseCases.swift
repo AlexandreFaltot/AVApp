@@ -9,7 +9,7 @@ import SwiftUI
 
 extension EnvironmentValues {
     @Entry var getDetailUseCase: any GetDetailUseCaseProtocol = GetDetailUseCase()
-    @Entry var getListUseCase: any GetListUseCaseProtocol = GetListUseCase()
+    @Entry var getListUseCase: any GetPopularMoviesUseCaseProtocol = GetPopularMoviesUseCase()
 }
 
 extension View {
@@ -17,7 +17,7 @@ extension View {
         environment(\.getDetailUseCase, useCase)
     }
 
-    func withListUseCase(_ useCase: any GetListUseCaseProtocol) -> some View {
+    func withListUseCase(_ useCase: any GetPopularMoviesUseCaseProtocol) -> some View {
         environment(\.getListUseCase, useCase)
     }
 }

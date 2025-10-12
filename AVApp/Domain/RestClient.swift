@@ -6,25 +6,7 @@
 //
 
 import Foundation
-
-protocol RestClientProtocol {
-    func request<Body: Encodable, Response: Decodable>(operation: RestApiOperation<Body, Response>) async throws -> Response
-}
-
-class RestClient: RestClientProtocol {
-    private let urlSession: URLSession
-
-    init(urlSession: URLSession = .shared) {
-        self.urlSession = urlSession
-    }
-
-    func request<Body: Encodable, Response: Decodable>(operation: RestApiOperation<Body, Response>) async throws -> Response {
-        let (data, _) = try await urlSession.data(for: try operation.buildUrlRequest())
-        let decodedData = try JSONDecoder().decode(Response.self, from: data)
-        return decodedData
-    }
-}
-
+import OSLog
 
 enum HttpMethod: String {
     case get = "GET"
@@ -34,90 +16,76 @@ enum HttpMethod: String {
     case delete = "DELETE"
 }
 
-struct EmptyBody: Codable {}
+enum OperationError: Error {
+    case malformedUrl
+}
 
-struct MyApiResponse: Decodable {
-    var messages: [String]
+protocol RestClientProtocol {
+    func request<Body: Encodable, Response: Decodable>(operation: RestApiOperation<Body, Response>) async throws -> Response
+}
+
+class RestClient: RestClientProtocol {
+    static let shared: RestClient = RestClient()
+
+    private let urlSession: URLSession
+
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
+    }
+
+    func request<Body: Encodable, Response: Decodable>(operation: RestApiOperation<Body, Response>) async throws -> Response {
+        
+        let urlRequest = try operation.buildUrlRequest()
+        print("[RestClient] Making request \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
+        if let headers = urlRequest.allHTTPHeaderFields {
+            print("[RestClient] with headers \(headers.description)")
+        }
+        if let body = urlRequest.httpBody {
+            print("[RestClient] with body: \(String(data: body, encoding: .utf8) ?? "")")
+        }
+
+        do {
+            let (data, _) = try await urlSession.data(for: urlRequest)
+            print("[RestClient] 🟢 Received response from \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
+            print("[RestClient] 🟢 Response received: \(String(data: data, encoding: .utf8) ?? "")")
+            let decodedData = try JSONDecoder().decode(Response.self, from: data)
+            return decodedData
+        } catch {
+            print("[RestClient] 🔴 Error with request \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
+            print("[RestClient] 🔴 Error received: \(error)")
+            throw error
+        }
+    }
 }
 
 
-struct MyApiDao: Encodable {
-    var stuff: String
-}
+class NetworkCacheManager {
+    static let shared = NetworkCacheManager()
 
-enum MyApiOperations {
-    static var getOperation: MyApiOperation<EmptyBody, MyApiResponse> {
-        .init(
-            method: .get,
-            endpoint: "/messages"
+    private init() {
+        configureCache()
+    }
+
+    func configureCache() {
+        // Configure URLCache with custom memory and disk capacity
+        let memoryCapacity = 50 * 1024 * 1024  // 50 MB
+        let diskCapacity = 100 * 1024 * 1024   // 100 MB
+
+        URLCache.shared = URLCache(
+            memoryCapacity: memoryCapacity,
+            diskCapacity: diskCapacity,
+            directory: nil
         )
     }
 
-    static var postOperation: MyApiOperation<MyApiDao, MyApiResponse> {
-        .init(method: .get,
-              endpoint: "/message",
-              body: MyApiDao(stuff: ""))
-    }
-}
-
-class MyApiOperation<Body: Encodable, Response: Decodable>: RestApiOperation<Body, Response> {
-    fileprivate init(method: HttpMethod, endpoint: String, queryItems: [URLQueryItem] = [], body: Body) {
-        super.init(method: method,
-                   baseUrl: "https://some-url.com",
-                   endpoint: endpoint,
-                   queryItems: queryItems,
-                   headers: ["Content-type": "application/json"],
-                   body: body)
-    }
-}
-
-fileprivate extension MyApiOperation where Body == EmptyBody {
-    convenience init(method: HttpMethod, endpoint: String, queryItems: [URLQueryItem] = []) {
-        self.init(method: method, endpoint: endpoint, queryItems: queryItems, body: EmptyBody())
-    }
-}
-
-class RestApiOperation<Body: Encodable, Response: Decodable> {
-    private var method: HttpMethod
-    private var queryItems: [URLQueryItem]
-    private var headers: [String: String]
-    private var baseUrl: String
-    private var endpoint: String
-    private var body: Body
-
-    init(method: HttpMethod,
-         baseUrl: String,
-         endpoint: String,
-         queryItems: [URLQueryItem],
-         headers: [String : String],
-         body: Body,
-    ) {
-        self.method = method
-        self.queryItems = queryItems
-        self.headers = headers
-        self.baseUrl = baseUrl
-        self.endpoint = endpoint
-        self.body = body
+    func clearCache() {
+        URLCache.shared.removeAllCachedResponses()
     }
 
-    func buildUrlRequest() throws -> URLRequest {
-        // Build url
-        guard var url = URL(string: baseUrl + endpoint) else {
-            throw OperationError.malformedUrl
-        }
-
-        url = url.appending(queryItems: queryItems)
-
-        // Build request
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = String(describing: method)
-        urlRequest.httpBody = body is EmptyBody ? nil : try JSONEncoder().encode(body)
-        urlRequest.allHTTPHeaderFields = headers
-
-        return urlRequest
+    func getCacheSize() -> (memory: Int, disk: Int) {
+        return (
+            memory: URLCache.shared.currentMemoryUsage,
+            disk: URLCache.shared.currentDiskUsage
+        )
     }
-}
-
-enum OperationError: Error {
-    case malformedUrl
 }

@@ -8,24 +8,25 @@
 #if DEBUG
 import SwiftUI
 
+// MARK: - Errors
 enum PreviewError: Error {
     case sample
 }
 
-final class UIViewControllerPreview: UIViewControllerRepresentable {
+// MARK: - UIViewControllerRepresentable
+struct UIViewControllerPreview: UIViewControllerRepresentable {
+    typealias UIViewControllerType = UIViewController
 
-    private var controller: UIViewController
+    // MARK: Properties
+    let controller: UIViewController
 
-    init(controller: UIViewController) {
-        self.controller = controller
+    // MARK: - UIViewControllerRepresentable
+    func makeUIViewController(context: Context) -> UIViewController {
+        controller
     }
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        // Nothing to do
-    }
-
-    func makeUIViewController(context: Context) -> some UIViewController {
-        return controller
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        // no-op
     }
 }
 #endif

@@ -7,19 +7,17 @@
 
 import SwiftUI
 
-enum AsyncState<T> {
-    case idle
-    case success(result: T)
-    case error(error: Error)
-}
-
-struct AsyncView<T, Content: View>: View {
+struct AVAsyncView<T, Content: View>: View {
+    // MARK: - Environment
     @Environment(\.allowRetry) private var allowRetry: Bool
+    // MARK: - State
     @State private var asyncState: AsyncState<T> = .idle
 
+    // MARK: - Properties
     private let content: (T) -> Content
     private let action: @MainActor @Sendable () async throws -> T
 
+    // MARK: - Initialization
     init(
         action: @escaping @MainActor @Sendable () async throws -> T,
         @ViewBuilder content: @escaping (T) -> Content
@@ -28,6 +26,7 @@ struct AsyncView<T, Content: View>: View {
         self.action = action
     }
 
+    // MARK: - Body
     var body: some View {
         Group {
             switch asyncState {
@@ -35,7 +34,7 @@ struct AsyncView<T, Content: View>: View {
                 ProgressView()
             case .success(let data):
                 content(data)
-            case .error(let error):
+            case .failure(let error):
                 VStack {
                     Text("An error occured: \(error.localizedDescription)")
                     if allowRetry {
@@ -53,6 +52,7 @@ struct AsyncView<T, Content: View>: View {
         }
     }
 
+    // MARK: - Methods
     func launchAction() {
         Task {
             asyncState = .idle
@@ -60,7 +60,7 @@ struct AsyncView<T, Content: View>: View {
                 let result = try await action()
                 asyncState = .success(result: result)
             } catch {
-                asyncState = .error(error: error)
+                asyncState = .failure(error: error)
             }
         }
     }
