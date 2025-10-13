@@ -26,9 +26,10 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="style">
-                                                <integer key="value" value="1"/>
+                                                <integer key="value" value="0"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="movie_list_title"/>
                                         </userDefinedRuntimeAttributes>
@@ -41,32 +42,45 @@
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="popular_movies"/>
                                             <userDefinedRuntimeAttribute type="number" keyPath="style">
-                                                <integer key="value" value="2"/>
+                                                <integer key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="BFI-w4-s23">
-                                <rect key="frame" x="0.0" y="266" width="393" height="586"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="BFI-w4-s23" customClass="AVUITableView" customModule="AVApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="258" width="393" height="594"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="GLU-4o-gId">
+                                <rect key="frame" x="186.66666666666666" y="545" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ni-M4-j5I" customClass="AVUIRetryView" customModule="AVApp" customModuleProvider="target">
+                                <rect key="frame" x="76" y="362" width="240" height="128"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="av_primary"/>
                         <constraints>
                             <constraint firstItem="P2i-Ff-sis" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="9uY-sm-rBV"/>
                             <constraint firstAttribute="bottom" secondItem="BFI-w4-s23" secondAttribute="bottom" id="FEy-4c-cvN"/>
+                            <constraint firstItem="5Ni-M4-j5I" firstAttribute="centerY" secondItem="BFI-w4-s23" secondAttribute="centerY" id="GKo-0q-g2U"/>
                             <constraint firstItem="BFI-w4-s23" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="IKd-c3-2GJ"/>
+                            <constraint firstItem="GLU-4o-gId" firstAttribute="centerX" secondItem="BFI-w4-s23" secondAttribute="centerX" id="KIP-Hu-cLE"/>
                             <constraint firstItem="P2i-Ff-sis" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="NYz-cY-YaU"/>
+                            <constraint firstItem="GLU-4o-gId" firstAttribute="centerY" secondItem="BFI-w4-s23" secondAttribute="centerY" id="TkG-hZ-COi"/>
                             <constraint firstItem="P2i-Ff-sis" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="U7X-ww-7VK"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="BFI-w4-s23" secondAttribute="trailing" id="WJh-WD-DOV"/>
-                            <constraint firstItem="BFI-w4-s23" firstAttribute="top" secondItem="P2i-Ff-sis" secondAttribute="bottom" constant="16" id="ytG-fJ-iHQ"/>
+                            <constraint firstItem="5Ni-M4-j5I" firstAttribute="centerX" secondItem="BFI-w4-s23" secondAttribute="centerX" id="bmu-T4-XBq"/>
+                            <constraint firstItem="BFI-w4-s23" firstAttribute="top" secondItem="P2i-Ff-sis" secondAttribute="bottom" constant="8" id="ytG-fJ-iHQ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="P2i-Ff-sis" secondAttribute="trailing" constant="16" id="zqc-xS-u36"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="GLU-4o-gId" id="IYH-7H-MHb"/>
+                        <outlet property="retryView" destination="5Ni-M4-j5I" id="qEr-gO-kV0"/>
                         <outlet property="tableView" destination="BFI-w4-s23" id="Kh4-jr-3ad"/>
                     </connections>
                 </viewController>
@@ -77,7 +91,7 @@
     </scenes>
     <resources>
         <namedColor name="av_primary">
-            <color red="0.12156862745098039" green="0.16078431372549021" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

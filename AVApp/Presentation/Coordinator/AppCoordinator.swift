@@ -15,6 +15,7 @@ final class AppCoordinator: Coordinator {
     // MARK: Initialization
     init(navigationController: UINavigationController = UINavigationController()) {
         self.navigationController = navigationController
+        self.navigationController.isNavigationBarHidden = true
     }
 
     // MARK: Public Methods

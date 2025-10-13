@@ -29,4 +29,18 @@ struct UIViewControllerPreview: UIViewControllerRepresentable {
         // no-op
     }
 }
+
+struct UIViewPreview: UIViewRepresentable {
+    typealias UIViewType = UIView
+
+    let view: UIView
+
+    func makeUIView(context: Context) -> UIView {
+        view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // no-op
+    }
+}
 #endif

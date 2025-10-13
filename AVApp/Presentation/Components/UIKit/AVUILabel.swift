@@ -45,7 +45,7 @@ class AVUILabel: UILabel {
     }
 
     func setStyle(_ style: Int) {
-        let style = TextStyle(rawValue: style)
+        let style = AVTextStyle(rawValue: style)
         font = style?.font ?? .systemFont(ofSize: 16)
     }
 

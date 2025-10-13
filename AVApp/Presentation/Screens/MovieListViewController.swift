@@ -8,44 +8,74 @@
 import UIKit
 import Combine
 
-
-enum TextStyle: Int {
-    case header1, header2, header3, paragraph
-
-    var font: UIFont {
-        return switch self {
-        case .header1: .systemFont(ofSize: 28)
-        case .header2: .systemFont(ofSize: 22)
-        case .header3: .systemFont(ofSize: 18)
-        case .paragraph: .systemFont(ofSize: 14)
-        }
-    }
-}
-
-
-
 class MovieListViewController: UIViewController {
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var retryView: AVUIRetryView!
     @IBOutlet weak var tableView: UITableView!
 
-    private var cancellables: Set<AnyCancellable> = []
+    lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        return control
+    }()
 
-    var viewModel: MovieListViewModel?
+    private let scrollOffsetThresoldForNewItems: CGFloat = 500
+    private var cancellables: Set<AnyCancellable> = []
+    private var isFetchingMoreMovies: Bool = false
+
+    var viewModel: (any MovieListViewModelProtocol)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerCell(ofType: AVTableViewCell<AVMovieCell>.self)
+        setupView()
+        bindData()
+    }
+
+    func setupView() {
+        refreshControl.tintColor = .avWhite
+        retryView.onAskForRetry = { [weak self] in
+            self?.viewModel?.refreshMovies()
+        }
+
+        tableView.registerCell(ofType: AVUIMovieTableViewCell.self)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = refreshControl
+    }
 
+    func bindData() {
         viewModel?.moviesPublisher
             .receive(on: RunLoop.main)
-            .sink { [weak self] movies in
-                print(movies)
-                self?.tableView.reloadData()
+            .sink { [weak self] state in
+                guard let self,
+                      let viewModel = self.viewModel else {
+                    return
+                }
+
+                self.retryView.isHidden = !viewModel.shouldShowRetry
+                self.tableView.isHidden = !viewModel.shouldShowMovies
+                self.activityIndicator.isHidden = !viewModel.shouldShowLoading
+
+                switch state {
+                case .idle:
+                    self.activityIndicator.startAnimating()
+                case .success:
+                    self.activityIndicator.stopAnimating()
+                    self.refreshControl.endRefreshing()
+                    self.tableView.reloadData()
+                case .failure:
+                    break
+                }
+
+                self.isFetchingMoreMovies = false
             }
             .store(in: &cancellables)
         viewModel?.initialize()
+    }
+
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        viewModel?.refreshMovies()
     }
 }
 
@@ -59,34 +89,41 @@ extension MovieListViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource methods
 extension MovieListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.fetchedMovies.count ?? 0
+        return viewModel?.nbOfMovies ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let viewModel,
               let movie = viewModel.movie(at: indexPath.row),
-              let cell = tableView.dequeueReusableCell(ofType: AVTableViewCell<AVMovieCell>.self) else {
+              let cell = tableView.dequeueReusableCell(ofType: AVUIMovieTableViewCell.self) else {
             return UITableViewCell()
         }
 
-        cell.content.setup(with: movie)
+        cell.setup(with: movie)
         return cell
     }
-}
 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+
+        // Trigger loading when user scrolls near the bottom
+        if offsetY > contentHeight - height - scrollOffsetThresoldForNewItems, !isFetchingMoreMovies {
+            isFetchingMoreMovies = true
+            viewModel?.getNextMovies()
+        }
+    }
+}
 
 #if DEBUG
 import SwiftUI
 
-#Preview("Error preview") {
-    UIViewControllerPreview(controller: MovieListViewController())
-}
-
-#Preview("Empty list preview") {
-    UIViewControllerPreview(controller: MovieListViewController())
-}
-
-#Preview("Normal preview") {
-    UIViewControllerPreview(controller: MovieListViewController())
+#Preview("MovieListViewController preview") {
+    UIViewControllerPreview(controller: {
+        let viewController = MovieListViewController.instanceFromStoryboard()
+        viewController?.viewModel = MockMovieListViewModel()
+        return viewController ?? UIViewController()
+    }())
 }
 #endif

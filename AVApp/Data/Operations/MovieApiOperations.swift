@@ -16,12 +16,13 @@ struct MovieApiOperations {
 
     static var getGenres: MovieApiOperation<EmptyBody, MDBGenreResponse> {
         .init(method: .get,
-              endpoint: "/genre/movie/list")
+              endpoint: "/genre/movie/list",
+              cachePolicy: .returnCacheDataElseLoad)
     }
 }
 
 class MovieApiOperation<Body: Encodable, Response: Decodable>: RestApiOperation<Body, Response> {
-    fileprivate init(method: HttpMethod, endpoint: String, body: Body, queryItems: [URLQueryItem] = [], cachePolicy: URLRequest.CachePolicy = .returnCacheDataElseLoad) {
+    fileprivate init(method: HttpMethod, endpoint: String, body: Body, queryItems: [URLQueryItem] = [], cachePolicy: URLRequest.CachePolicy = .reloadIgnoringLocalCacheData) {
         super.init(method: method,
                    baseUrl: "https://api.themoviedb.org/3",
                    endpoint: endpoint,
@@ -32,9 +33,15 @@ class MovieApiOperation<Body: Encodable, Response: Decodable>: RestApiOperation<
     }
 }
 
+extension MovieApiOperation where Body == EmptyBody {
+    convenience init(method: HttpMethod, endpoint: String, queryItems: [URLQueryItem] = [], cachePolicy: URLRequest.CachePolicy = .reloadIgnoringLocalCacheData) {
+        self.init(method: method, endpoint: endpoint, body: EmptyBody(), queryItems: queryItems, cachePolicy: cachePolicy)
+    }
+}
+
 fileprivate extension Collection where Element == URLQueryItem {
     static func defaultItems() -> [URLQueryItem] {
-        [.language(Locale.current.identifier),
+        [.language(Locale.current.language.languageCode?.identifier ?? "en"),
          .apiKey(Constants.movieDBApiKey)]
     }
 }

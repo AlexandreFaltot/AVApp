@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct AVAsyncView<T, Content: View>: View {
     // MARK: - Environment
@@ -36,12 +37,12 @@ struct AVAsyncView<T, Content: View>: View {
                 content(data)
             case .failure(let error):
                 VStack {
-                    Text("An error occured: \(error.localizedDescription)")
+                    Text(LocalizedStringResource.errorWithDescription(errorDescription: error.localizedDescription))
                     if allowRetry {
                         Button {
                             launchAction()
                         } label: {
-                            Text("Retry")
+                            Text(LocalizedStringResource.retry)
                         }
                     }
                 }

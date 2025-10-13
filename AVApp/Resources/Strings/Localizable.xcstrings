@@ -1,12 +1,36 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "An error occured: %@" : {
+    "error_with_description" : {
+      "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An error occurred: %1$(errorDescription)@"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une erreur est survenue : %@"
+            "value" : "Une erreur est survenue: %1$(errorDescription)@"
+          }
+        }
+      }
+    },
+    "generic_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An error occured"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une erreur est survenue"
           }
         }
       }
@@ -14,6 +38,12 @@
     "headliners" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Headliners"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39,6 +69,23 @@
         }
       }
     },
+    "movie_rate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(rate)@/5 (%2$(numberOfRates)d rates)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(rate)@/5 (%2$(numberOfRates)d avis)"
+          }
+        }
+      }
+    },
     "popular_movies" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -56,8 +103,15 @@
         }
       }
     },
-    "Retry" : {
+    "retry" : {
+      "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",

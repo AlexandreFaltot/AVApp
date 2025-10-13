@@ -13,4 +13,10 @@ extension DateFormatter {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
+
+    static func movieDateFormatter() -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }
 }

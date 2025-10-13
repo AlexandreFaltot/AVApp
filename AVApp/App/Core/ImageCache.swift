@@ -11,8 +11,9 @@ import UIKit
 let imageCache = NSCache<NSString, UIImage>()
 
 extension UIImageView {
-    func setupImage(with urlString: String) {
+    func setupImage(with urlString: String, placeholder: UIImage? = nil) {
         Task {
+            self.image = placeholder
             if let image = await fetchImage(from: urlString) {
                 self.image = image
             }
