@@ -8,10 +8,20 @@
 import Foundation
 
 struct MovieApiOperations {
-    static func getPopularMovies(page: Int) -> MovieApiOperation<EmptyBody, MDBMovieResponse> {
+    static func getPopularMovies(page: Int) -> MovieApiOperation<EmptyBody, MDBMoviesResponse> {
         .init(method: .get,
               endpoint: "/discover/movie",
               queryItems: [.page(page)])
+    }
+
+    static func getMovieDetails(id: Int) -> MovieApiOperation<EmptyBody, MDBMovieDetails> {
+        .init(method: .get,
+              endpoint: "/movie/\(id)")
+    }
+
+    static func getMovieCredits(id: Int) -> MovieApiOperation<EmptyBody, MDBMovieCredits> {
+        .init(method: .get,
+              endpoint: "/movie/\(id)/credits")
     }
 
     static var getGenres: MovieApiOperation<EmptyBody, MDBGenreResponse> {
@@ -24,7 +34,7 @@ struct MovieApiOperations {
 class MovieApiOperation<Body: Encodable, Response: Decodable>: RestApiOperation<Body, Response> {
     fileprivate init(method: HttpMethod, endpoint: String, body: Body, queryItems: [URLQueryItem] = [], cachePolicy: URLRequest.CachePolicy = .reloadIgnoringLocalCacheData) {
         super.init(method: method,
-                   baseUrl: "https://api.themoviedb.org/3",
+                   baseUrl: MDBConstants.baseUrl,
                    endpoint: endpoint,
                    queryItems: .defaultItems() + queryItems,
                    headers: .defaultHeaders(),
@@ -60,6 +70,6 @@ fileprivate extension MovieApiOperation where Body == EmptyBody {
 
 extension URLQueryItem {
     static func language(_ value: String) -> URLQueryItem { URLQueryItem(name: "language", value: value) }
-    static func apiKey(_ value: String) -> URLQueryItem { URLQueryItem(name: "api_key", value: value) }
+    static func apiKey(_ value: String?) -> URLQueryItem { URLQueryItem(name: "api_key", value: value) }
     static func page(_ value: Int) -> URLQueryItem { URLQueryItem(name: "page", value: value.description) }
 }

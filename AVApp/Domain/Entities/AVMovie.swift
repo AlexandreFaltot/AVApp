@@ -22,7 +22,7 @@ extension AVMovie {
     init(mdbMovie: MDBMovie, mdbGenres: [MDBGenre]) {
         self.id = mdbMovie.id
         self.title = mdbMovie.title
-        self.posterUrl = mdbMovie.posterPath.map { "https://image.tmdb.org/t/p/w500\($0)" }  
+        self.posterUrl = mdbMovie.posterPath.map { MDBConstants.baseImageUrl + $0 }  
         self.releaseDate = mdbMovie.releaseDate
         self.genres = mdbMovie.genreIds
             .compactMap { id in
@@ -31,6 +31,17 @@ extension AVMovie {
         self.rating = mdbMovie.voteAverage / 2
         self.numberOfRatings = mdbMovie.voteCount
         self.synopsis = mdbMovie.overview
+    }
+
+    init(mdbMovieDetails: MDBMovieDetails) {
+        self.id = mdbMovieDetails.id
+        self.title = mdbMovieDetails.title
+        self.posterUrl = mdbMovieDetails.posterPath.map { MDBConstants.baseImageUrl + $0 }
+        self.releaseDate = mdbMovieDetails.releaseDate
+        self.genres = mdbMovieDetails.genres.map { $0.name }
+        self.rating = mdbMovieDetails.voteAverage / 2
+        self.numberOfRatings = mdbMovieDetails.voteCount
+        self.synopsis = mdbMovieDetails.overview
     }
 }
 
@@ -41,7 +52,7 @@ extension AVMovie {
                                        posterUrl: nil,
                                        releaseDate: Date(),
                                        genres: ["Thriller"],
-                                       rating: 2.256,
+                                       rating: 2.562,
                                        numberOfRatings: 60,
                                        synopsis: "Synopsis")
 }

@@ -23,11 +23,15 @@
             <rect key="frame" x="0.0" y="0.0" width="601" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="udK-xb-btW">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="udK-xb-btW" customClass="AVUIImageView" customModule="AVApp" customModuleProvider="target">
                     <rect key="frame" x="8" y="8" width="142" height="184"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="142" id="9TM-ex-EnA"/>
-                        <constraint firstAttribute="height" priority="750" constant="184" id="vPq-oz-rvL"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="184" id="vPq-oz-rvL">
+                            <string key="identifier" base64-UTF8="YES">
+CQ
+</string>
+                        </constraint>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">

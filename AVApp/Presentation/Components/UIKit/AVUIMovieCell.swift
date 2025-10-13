@@ -22,8 +22,7 @@ final class AVUIMovieCell: AVNibView & AVUISetupable {
     @IBOutlet weak var genresLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var synopsisLabel: UILabel!
-    @IBOutlet weak var posterImageView: UIImageView!
-
+    @IBOutlet weak var posterImageView: AVUIImageView!
 
     override init(frame: CGRect) {
         super.init(frame: frame)

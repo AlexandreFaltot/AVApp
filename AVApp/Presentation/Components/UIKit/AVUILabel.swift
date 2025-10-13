@@ -44,9 +44,11 @@ class AVUILabel: UILabel {
         self.textColor = UIColor.white
     }
 
-    func setStyle(_ style: Int) {
-        let style = AVTextStyle(rawValue: style)
-        font = style?.font ?? .systemFont(ofSize: 16)
+    private func setStyle(_ style: Int) {
+        guard let style = AVTextStyle(rawValue: style) else {
+            return
+        }
+        font = style.font
     }
 
     func setLocalizedKey(_ key: String?) {

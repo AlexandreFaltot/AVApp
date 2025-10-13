@@ -1,6 +1,57 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "app_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Explorer"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Explorer"
+          }
+        }
+      }
+    },
+    "directed_by" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By: %1$(directorName)@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De : %(directorName)@"
+          }
+        }
+      }
+    },
+    "duration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration: %1$(duration)@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée : %(duration)@"
+          }
+        }
+      }
+    },
     "error_with_description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -35,6 +86,23 @@
         }
       }
     },
+    "genre" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genre: %1$(genre)@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genre: %(genre)@"
+          }
+        }
+      }
+    },
     "headliners" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -48,23 +116,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Têtes d’affiche"
-          }
-        }
-      }
-    },
-    "movie_list_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Explorer"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Explorer"
           }
         }
       }
@@ -99,6 +150,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Films populaires"
+          }
+        }
+      }
+    },
+    "release_date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Released: %1$(releaseDate)@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sortie en salle : %(releaseDate)@"
           }
         }
       }

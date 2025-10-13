@@ -7,15 +7,21 @@
 
 import Combine
 
-class MovieDetailScreenViewModel: ObservableObject {
-    let getListUseCase: any GetPopularMoviesUseCaseProtocol
+protocol MovieDetailScreenViewModelProtocol: ObservableObject {
+    func getMovieDetails() async throws -> AVMovieDetails
+}
 
-    init(getListUseCase: any GetPopularMoviesUseCaseProtocol = GetPopularMoviesUseCase()) {
-        self.getListUseCase = getListUseCase
+class MovieDetailScreenViewModel: MovieDetailScreenViewModelProtocol {
+    private let movieId: Int
+    private let getMovieDetailsUseCase: any GetMovieDetailsUseCaseProtocol
+
+    init(movieId: Int,
+         getMovieDetailsUseCase: any GetMovieDetailsUseCaseProtocol = GetMovieDetailsUseCase()) {
+        self.movieId = movieId
+        self.getMovieDetailsUseCase = getMovieDetailsUseCase
     }
 
-    func getMovieDetails() async throws -> AVMovie {
-        let results = try await getListUseCase.execute(.init(page: 1))
-        return results.first!
+    func getMovieDetails() async throws -> AVMovieDetails {
+        try await getMovieDetailsUseCase.execute(.init(id: movieId))
     }
 }

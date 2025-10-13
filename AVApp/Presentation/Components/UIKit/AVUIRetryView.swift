@@ -20,7 +20,7 @@ class AVUIRetryView: AVNibView {
 
     override func setupView() {
         super.setupView()
-        retryButton.setTitle(String(localized: LocalizedStringResource.retry), for: .normal)
+        retryButton.setTitle(String(localized: .retry), for: .normal)
     }
 
     @IBAction func onRetry(_ sender: UIButton) {

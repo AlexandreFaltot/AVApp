@@ -13,7 +13,7 @@ final class AppCoordinator: Coordinator {
     let navigationController: UINavigationController
 
     // MARK: Initialization
-    init(navigationController: UINavigationController = UINavigationController()) {
+    init(navigationController: UINavigationController = AVUINavigationController()) {
         self.navigationController = navigationController
         self.navigationController.isNavigationBarHidden = true
     }
@@ -33,8 +33,8 @@ final class AppCoordinator: Coordinator {
     }
     
     func navigateToDetail(movie: AVMovie) {
-        let view = MovieDetailScreen(viewModel: MovieDetailScreenViewModel())
-        let detail = UIHostingController(rootView: view)
+        let view = MovieDetailView(viewModel: MovieDetailScreenViewModel(movieId: movie.id))
+        let detail = AVUIHostingViewController(rootView: view)
         navigationController.pushViewController(detail, animated: true)
     }
 }

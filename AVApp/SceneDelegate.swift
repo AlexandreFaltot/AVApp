@@ -11,6 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // MARK: - Public Properties
     var window: UIWindow?
+    var coordinator: (any Coordinator)?
 
     // MARK: - Lifecycle
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -21,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator.start()
         window.rootViewController = coordinator.navigationController
         self.window = window
+        self.coordinator = coordinator
         window.makeKeyAndVisible()
     }
 

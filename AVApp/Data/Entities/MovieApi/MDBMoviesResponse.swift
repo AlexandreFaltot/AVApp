@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MDBMovieResponse: Decodable {
+struct MDBMoviesResponse: Decodable {
     let page: Int
     let results: [MDBMovie]
     let totalPages: Int

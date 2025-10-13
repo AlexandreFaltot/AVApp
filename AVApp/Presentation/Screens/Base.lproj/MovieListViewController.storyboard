@@ -31,7 +31,7 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="style">
                                                 <integer key="value" value="0"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="movie_list_title"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="app_title"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxH-bx-VYX" customClass="AVUILabel" customModule="AVApp" customModuleProvider="target">

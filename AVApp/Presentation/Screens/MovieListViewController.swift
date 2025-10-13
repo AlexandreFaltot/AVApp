@@ -14,6 +14,12 @@ class MovieListViewController: UIViewController {
     @IBOutlet weak var retryView: AVUIRetryView!
     @IBOutlet weak var tableView: UITableView!
 
+    lazy var tableFooterView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.tintColor = .avWhite
+        return activityIndicator
+    }()
+
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
@@ -42,6 +48,8 @@ class MovieListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.refreshControl = refreshControl
+
+        tableView.tableFooterView = tableFooterView
     }
 
     func bindData() {
@@ -56,6 +64,7 @@ class MovieListViewController: UIViewController {
                 self.retryView.isHidden = !viewModel.shouldShowRetry
                 self.tableView.isHidden = !viewModel.shouldShowMovies
                 self.activityIndicator.isHidden = !viewModel.shouldShowLoading
+                self.tableFooterView.stopAnimating()
 
                 switch state {
                 case .idle:
@@ -110,10 +119,12 @@ extension MovieListViewController: UITableViewDataSource {
 
         // Trigger loading when user scrolls near the bottom
         if offsetY > contentHeight - height - scrollOffsetThresoldForNewItems, !isFetchingMoreMovies {
+            tableFooterView.startAnimating()
             isFetchingMoreMovies = true
             viewModel?.getNextMovies()
         }
     }
+
 }
 
 #if DEBUG
