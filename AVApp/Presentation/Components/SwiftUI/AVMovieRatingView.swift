@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import SwiftUI
 
 struct AVMovieRatingView: View {
@@ -34,14 +33,13 @@ struct AVMovieRatingView: View {
                 }
             }
         }
-        .padding(.all, 8.0)
-        .background(.avPrimary)
-        .cornerRadius(16.0)
-        .shadow(radius: 2, y: 4)
+        .avCardDesign(cornerRadius: 16.0, shadowRadius: 2)
         .avStyle(.paragraphBold)
     }
 }
 
+#if DEBUG
 #Preview {
     AVMovieRatingView(rate: 2.542, numberOfRates: 23)
 }
+#endif

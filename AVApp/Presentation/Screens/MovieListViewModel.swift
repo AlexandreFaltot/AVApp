@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 10/10/2025.
 //
 
-
 import UIKit
 import Combine
 import SwiftUI
@@ -46,34 +45,34 @@ class MovieListViewModel {
     init(getPopularMoviesUseCase: any GetPopularMoviesUseCaseProtocol = Module.shared.resolve(scope: \.instance)) {
         self.getPopularMoviesUseCase = getPopularMoviesUseCase
     }
+}
 
-    // MARK: - Public methods
-    func initialize() {
-        refreshMovies()
+// MARK: - Public methods
+@MainActor
+extension MovieListViewModel {
+    func initialize() async {
+        await refreshMovies()
     }
 
-    func refreshMovies() {
+    func refreshMovies() async {
         self.currentPage = 1
 
-        Task { @MainActor in
-            do {
-                let result = try await getPopularMoviesUseCase.execute(.init(page: currentPage))
-                self.moviesResult = .success(result: result)
-            } catch {
-                self.moviesResult = .failure(error: error)
-            }
+        do {
+            let result = try await getPopularMoviesUseCase.execute(.init(page: currentPage))
+            self.moviesResult = .success(result: result)
+        } catch {
+            self.moviesResult = .failure(error: error)
         }
+
     }
 
-    func getNextMovies() {
-        Task { @MainActor in
-            do {
-                let result = try await getPopularMoviesUseCase.execute(.init(page: currentPage + 1))
-                self.currentPage += 1
-                self.moviesResult = .success(result: (moviesResult.result ?? []) + result)
-            } catch {
-                self.moviesResult = .failure(error: error)
-            }
+    func getNextMovies() async {
+        do {
+            let result = try await getPopularMoviesUseCase.execute(.init(page: currentPage + 1))
+            self.currentPage += 1
+            self.moviesResult = .success(result: (moviesResult.result ?? []) + result)
+        } catch {
+            self.moviesResult = .failure(error: error)
         }
     }
 
@@ -81,7 +80,7 @@ class MovieListViewModel {
         guard case let .success(movies) = moviesResult else {
             return nil
         }
-        
+
         return movies[safe: index]
     }
 

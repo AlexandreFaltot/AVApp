@@ -15,10 +15,6 @@ enum ImageCacheManagerError: Error {
 class ImageCacheManager {
     private let cache = NSCache<NSString, UIImage>()
 
-    func imageFromCacheOrLoad(_ url: String) async -> UIImage? {
-        return try? await imageFromCacheOrLoad(URL(string: url))
-    }
-
     func imageFromCacheOrLoad(_ url: URL?) async throws -> UIImage {
         guard let url else {
             throw ImageCacheManagerError.urlError

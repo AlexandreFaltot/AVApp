@@ -31,6 +31,10 @@ class AVUIFieldButton: UIButton {
         setupView()
     }
 
+    override func prepareForInterfaceBuilder() {
+        setupView()
+    }
+
     private let innerShadowLayer: CALayer = CALayer()
 
     func setupView() {

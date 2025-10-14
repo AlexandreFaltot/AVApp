@@ -41,7 +41,9 @@ class MovieListViewController: UIViewController {
     func setupView() {
         refreshControl.tintColor = .avWhite
         retryView.onAskForRetry = { [weak self] in
-            self?.viewModel?.refreshMovies()
+            Task {
+                await self?.viewModel?.refreshMovies()
+            }
         }
 
         tableView.registerCell(ofType: AVUIMovieTableViewCell.self)
@@ -80,13 +82,17 @@ class MovieListViewController: UIViewController {
                 self.isFetchingMoreMovies = false
             }
             .store(in: &cancellables)
-        viewModel?.initialize()
+
+        Task {
+            await viewModel?.initialize()
+        }
     }
 
     @IBAction func refresh(_ sender: UIRefreshControl) {
-        viewModel?.refreshMovies()
+        Task {
+            await viewModel?.refreshMovies()
+        }
     }
-
 
     @IBAction func onAskForSearch(_ sender: AVUIFieldButton) {
         viewModel?.askForMovieSearch()
@@ -126,7 +132,9 @@ extension MovieListViewController: UITableViewDataSource {
         if offsetY > contentHeight - height - scrollOffsetThresoldForNewItems, !isFetchingMoreMovies {
             tableFooterView.startAnimating()
             isFetchingMoreMovies = true
-            viewModel?.getNextMovies()
+            Task {
+                await viewModel?.getNextMovies()
+            }
         }
     }
 }
@@ -153,7 +161,6 @@ import SwiftUI
         }())
     }
 }
-
 
 #Preview("Empty list") {
     PreviewContainer {

@@ -10,7 +10,7 @@ import Foundation
 struct AVMovie: Identifiable {
     let id: Int
     let title: String
-    let posterUrl: String?
+    let posterFilePath: String?
     let releaseDate: Date?
     let genres: [String]
     let rating: Double
@@ -22,7 +22,7 @@ extension AVMovie {
     init(mdbMovie: MDBMovie, mdbGenres: [MDBGenre]) {
         self.id = mdbMovie.id
         self.title = mdbMovie.title
-        self.posterUrl = mdbMovie.posterPath.map { MDBConstants.baseImageUrl + $0 }  
+        self.posterFilePath = mdbMovie.posterPath
         self.releaseDate = mdbMovie.releaseDate
         self.genres = mdbMovie.genreIds
             .compactMap { id in
@@ -36,20 +36,30 @@ extension AVMovie {
     init(mdbMovieDetails: MDBMovieDetails) {
         self.id = mdbMovieDetails.id
         self.title = mdbMovieDetails.title
-        self.posterUrl = mdbMovieDetails.posterPath.map { MDBConstants.baseImageUrl + $0 }
+        self.posterFilePath = mdbMovieDetails.posterPath
         self.releaseDate = mdbMovieDetails.releaseDate
         self.genres = mdbMovieDetails.genres.map { $0.name }
         self.rating = mdbMovieDetails.voteAverage / 2
         self.numberOfRatings = mdbMovieDetails.voteCount
         self.synopsis = mdbMovieDetails.overview
     }
+
+    func posterUrl(_ size: MDBPosterSize) -> URL? {
+        guard let posterFilePath else {
+            return nil
+        }
+
+        return URL(string: "\(MDBConstants.baseImageUrl)/\(size.rawValue)\(posterFilePath)")
+    }
 }
+
+
 
 #if DEBUG
 extension AVMovie {
     static let mock: AVMovie = AVMovie(id: 0,
                                        title: "Title",
-                                       posterUrl: "https://image.tmdb.org/t/p/w500/sprAGPxYPxLkcDqNK29SCGURTrp.jpg",
+                                       posterFilePath: "/sprAGPxYPxLkcDqNK29SCGURTrp.jpg",
                                        releaseDate: Date(),
                                        genres: ["Thriller"],
                                        rating: 2.562,
@@ -62,7 +72,7 @@ extension Collection where Element == AVMovie {
         (0..<10).map { index in
             AVMovie(id: index,
                     title: "Title \(index)",
-                    posterUrl: "https://image.tmdb.org/t/p/w500/sprAGPxYPxLkcDqNK29SCGURTrp.jpg",
+                    posterFilePath: "/sprAGPxYPxLkcDqNK29SCGURTrp.jpg",
                     releaseDate: Date(),
                     genres: ["Genre \(index)"],
                     rating: 2.562,

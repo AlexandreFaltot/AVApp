@@ -62,6 +62,8 @@ struct MovieDetailScreenView: View {
     }
 }
 
+
+#if DEBUG
 #Preview("Movie preview") {
     PreviewContainer {
         MovieDetailScreenView(viewModel: MovieDetailScreenViewModel(movieId: 0, getMovieDetailsUseCase: GetMovieDetailsUseCaseMock()))
@@ -73,4 +75,4 @@ struct MovieDetailScreenView: View {
         MovieDetailScreenView(viewModel: MovieDetailScreenViewModel(movieId: 0, getMovieDetailsUseCase: GetMovieDetailsUseCaseErrorMock()))
     }
 }
-    
+#endif

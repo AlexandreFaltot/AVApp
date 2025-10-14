@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import SwiftUI
 
 struct AVHeaderView<Subtitle: View>: View {
@@ -27,6 +26,8 @@ struct AVHeaderView<Subtitle: View>: View {
     }
 }
 
+
+#if DEBUG
 #Preview {
     AVHeaderView(title: "Title") {
         Text("Subtitle")
@@ -35,3 +36,4 @@ struct AVHeaderView<Subtitle: View>: View {
     .background(Color.avPrimary)
     .frame(width: 300)
 }
+#endif

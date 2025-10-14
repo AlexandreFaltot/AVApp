@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import SwiftUI
 
 struct AVMovieSnapshotView: View {
@@ -13,7 +12,7 @@ struct AVMovieSnapshotView: View {
 
     var body: some View {
         HStack(spacing: 8.0) {
-            AVAsyncImage(url: movie.posterUrl)
+            AVAsyncImage(url: movie.posterUrl(.medium))
                 .frame(width: 165, height: 245)
                 .cornerRadius(12.0)
                 .clipped()
@@ -41,13 +40,14 @@ struct AVMovieSnapshotView: View {
     }
 
     var background: some View {
-        AVAsyncImage(url: movie.backdrop)
+        AVAsyncImage(url: movie.backdropUrl(.large))
             .scaledToFill()
             .clipped()
             .opacity(0.4)
     }
 }
 
+#if DEBUG
 #Preview {
     PreviewContainer {
         AVMovieSnapshotView(movie: .mock)
@@ -55,3 +55,4 @@ struct AVMovieSnapshotView: View {
             .frame(width: 375, height: 250)
     }
 }
+#endif

@@ -10,8 +10,8 @@ import Foundation
 struct AVMovieDetails {
     let id: Int
     let title: String
-    let posterUrl: URL?
-    let backdrop: URL?
+    let posterFilePath: String?
+    let backdropFilePath: String?
     let runtime: Int
     let releaseDate: Date?
     let genres: [String]
@@ -27,16 +27,8 @@ extension AVMovieDetails {
         self.id = mdbMovieDetails.id
         self.title = mdbMovieDetails.title
         self.runtime = mdbMovieDetails.runtime
-        if let posterPath = mdbMovieDetails.posterPath {
-            self.posterUrl = URL(string: MDBConstants.baseImageUrl + posterPath)
-        } else {
-            self.posterUrl = nil
-        }
-        if let backdropPath = mdbMovieDetails.backdropPath {
-            self.backdrop = URL(string: MDBConstants.baseImageUrl + backdropPath)
-        } else {
-            self.backdrop = nil
-        }
+        self.posterFilePath = mdbMovieDetails.posterPath
+        self.backdropFilePath = mdbMovieDetails.backdropPath
         self.releaseDate = mdbMovieDetails.releaseDate
         self.genres = mdbMovieDetails.genres.map { $0.name }
         self.rating = mdbMovieDetails.voteAverage / 2
@@ -47,14 +39,30 @@ extension AVMovieDetails {
             .map { AVMovieHeadliner(mdbCast: $0) }
         self.directors = credits.crew.directors.map(\.name)
     }
+
+    func posterUrl(_ size: MDBPosterSize) -> URL? {
+        guard let posterFilePath else {
+            return nil
+        }
+
+        return URL(string: "\(MDBConstants.baseImageUrl)/\(size.rawValue)\(posterFilePath)")
+    }
+
+    func backdropUrl(_ size: MDBPosterSize) -> URL? {
+        guard let backdropFilePath else {
+            return nil
+        }
+
+        return URL(string: "\(MDBConstants.baseImageUrl)/\(size.rawValue)\(backdropFilePath)")
+    }
 }
 
 #if DEBUG
 extension AVMovieDetails {
     static let mock: AVMovieDetails = AVMovieDetails(id: 0,
                                                      title: "Title",
-                                                     posterUrl: URL(string: MDBConstants.baseImageUrl + "/CT7EhbB5yVLdUfvIiZs5QhOvgU.jpg"),
-                                                     backdrop: URL(string: MDBConstants.baseImageUrl + "/9DYFYhmbXRGsMhfUgXM3VSP9uLX.jpg"),
+                                                     posterFilePath: "/CT7EhbB5yVLdUfvIiZs5QhOvgU.jpg",
+                                                     backdropFilePath: "/9DYFYhmbXRGsMhfUgXM3VSP9uLX.jpg",
                                                      runtime: 100,
                                                      releaseDate: Date(),
                                                      genres: ["Thriller"],

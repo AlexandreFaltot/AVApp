@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 10/10/2025.
 //
 
-
 enum AsyncState<T> {
     case idle
     case loading
@@ -22,6 +21,11 @@ enum AsyncState<T> {
 
     var isSuccess: Bool {
         guard case .success = self else { return false }
+        return true
+    }
+
+    var isIdle: Bool {
+        guard case .idle = self else { return false }
         return true
     }
 

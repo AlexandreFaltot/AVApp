@@ -39,7 +39,11 @@ struct MovieSearchScreenView: View {
                 .padding(.horizontal, 16.0)
             ScrollView {
                 AVAsyncView(state: viewModel.movies,
-                            onRetry: viewModel.searchMovies) { movies in
+                            onRetry: {
+                    Task {
+                        await viewModel.searchMovies()
+                    }
+                }) { movies in
                     if movies.isEmpty {
                         Text(.noMovieResult)
                             .multilineTextAlignment(.center)
@@ -68,50 +72,7 @@ struct MovieSearchScreenView: View {
     }
 }
 
-import Combine
-
-class MovieSearchScreenViewModel: ObservableObject {
-    @Published var query: String = ""
-    @Published var movies: AsyncState<[AVMovie]> = .idle
-    var didEnterQuery: Bool { !query.isEmpty }
-
-    private var cancellables: Set<AnyCancellable> = []
-    private var searchMovieUseCase: any SearchMoviesUseCaseProtocol
-
-    init(searchMovieUseCase: any SearchMoviesUseCaseProtocol = Module.shared.resolve(scope: \.instance)) {
-        self.searchMovieUseCase = searchMovieUseCase
-    }
-
-    func initialize() {
-        $query
-            .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.searchMovies()
-            }
-            .store(in: &cancellables)
-    }
-
-    func searchMovies() {
-        guard !query.isEmpty else {
-            movies = .idle
-            return
-        }
-
-        movies = .loading
-        Task { @MainActor in
-            do {
-                let results = try await searchMovieUseCase.execute(.init(query: query))
-                movies = .success(result: results)
-            } catch {
-                movies = .failure(error: error)
-            }
-        }
-    }
-}
-
-
-
+#if DEBUG
 #Preview("Success preview") {
     PreviewContainer {
         MovieSearchScreenView(viewModel: MovieSearchScreenViewModel(searchMovieUseCase: SearchMoviesUseCaseMock()))
@@ -129,3 +90,4 @@ class MovieSearchScreenViewModel: ObservableObject {
         MovieSearchScreenView(viewModel: MovieSearchScreenViewModel(searchMovieUseCase: SearchMoviesUseCaseEmptyMock()))
     }
 }
+#endif

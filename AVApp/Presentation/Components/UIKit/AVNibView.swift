@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 12/10/2025.
 //
 
-
 import UIKit
 
 @IBDesignable
@@ -31,6 +30,11 @@ class AVNibView: UIView {
         guard let contentView else { return }
         addConstrainedSubview(contentView)
         setupView()
+    }
+
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        loadFromNib()
     }
 
     func setupView() {

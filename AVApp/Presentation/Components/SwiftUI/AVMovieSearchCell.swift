@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 14/10/2025.
 //
 
-
 import SwiftUI
 import Combine
 
@@ -14,7 +13,7 @@ struct AVMovieSearchCell: View {
 
     var body: some View {
         HStack {
-            AVAsyncImage(url: movie.posterUrl.map { URL(string: $0)! })
+            AVAsyncImage(url: movie.posterUrl(.small))
                 .frame(maxWidth: 60, maxHeight: 85)
                 .cornerRadius(6.0)
             VStack(alignment: .leading) {
@@ -34,11 +33,7 @@ struct AVMovieSearchCell: View {
             }
             Spacer()
         }
-        .padding(8.0)
-        .background(Color.avPrimary)
-        .border(Color.avDark, width: 1.0)
-        .cornerRadius(12.0)
-        .shadow(radius: 4.0, y: 8.0)
+        .avCardDesign(borderWidth: 1.0, shadowOffset: .init(x: 0.0, y: 8.0))
     }
 
     var dateAndGenre: some View {
@@ -63,11 +58,17 @@ struct AVMovieSearchCell: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PreviewContainer {
         VStack {
+            Spacer()
             AVMovieSearchCell(movie: .mock)
                 .frame(height: 85)
+            Spacer()
         }
+        .padding(16.0)
+        .background(Color.avPrimary)
     }
 }
+#endif

@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 10/10/2025.
 //
 
-
 import UIKit
 import Combine
 import SwiftUI

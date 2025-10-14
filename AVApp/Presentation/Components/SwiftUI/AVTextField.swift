@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 14/10/2025.
 //
 
-
 import SwiftUI
 import Combine
 
@@ -42,6 +41,7 @@ struct AVTextField: View {
     }
 }
 
+#if DEBUG
 #Preview {
     VStack {
         Spacer()
@@ -52,3 +52,4 @@ struct AVTextField: View {
 
     .background(.avPrimary)
 }
+#endif

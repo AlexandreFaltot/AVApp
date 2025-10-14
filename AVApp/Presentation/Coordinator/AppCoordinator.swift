@@ -34,7 +34,7 @@ final class AppCoordinator: Coordinator {
         viewController.viewModel = viewModel
         navigationController.viewControllers = [viewController]
     }
-    
+
     func navigateToDetail(movie: AVMovie) {
         let view = MovieDetailScreenView(viewModel: MovieDetailScreenViewModel(movieId: movie.id))
         let detail = AVUIHostingViewController(rootView: view)

@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import SwiftUI
 
 struct AVHeadlinerSnapshotView: View {
@@ -13,7 +12,7 @@ struct AVHeadlinerSnapshotView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8.0) {
-            AVAsyncImage(url: headliner.imageUrl)
+            AVAsyncImage(url: headliner.profileImageUrl(.medium))
                 .frame(height: 165)
                 .cornerRadius(12.0)
                 .clipped()
@@ -24,13 +23,11 @@ struct AVHeadlinerSnapshotView: View {
         }
         .lineLimit(1)
         .frame(width: 143)
-        .padding(8.0)
-        .background(Color.avPrimary)
-        .cornerRadius(12.0)
-        .shadow(radius: 4, y: 4)
+        .avCardDesign()
     }
 }
 
+#if DEBUG
 #Preview {
     PreviewContainer {
         VStack {
@@ -38,3 +35,4 @@ struct AVHeadlinerSnapshotView: View {
         }
     }
 }
+#endif

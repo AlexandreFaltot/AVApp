@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import Foundation
 
 struct MDBCrewMember: Decodable {
@@ -50,3 +49,23 @@ struct MDBCrewMember: Decodable {
         self.job = try container.decode(.job)
     }
 }
+
+
+#if DEBUG
+extension MDBCrewMember {
+    init(adult: Bool, gender: Int, id: Int, knownForDepartment: String, name: String, originalName: String, popularity: Double, profilePath: String?, creditId: String, department: String, job: String) {
+        self.adult = adult
+        self.gender = gender
+        self.id = id
+        self.knownForDepartment = knownForDepartment
+        self.name = name
+        self.originalName = originalName
+        self.popularity = popularity
+        self.profilePath = profilePath
+        self.creditId = creditId
+        self.department = department
+        self.job = job
+    }
+
+}
+#endif

@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import Foundation
 import UIKit
 
@@ -33,13 +32,13 @@ class AVUIImageView: UIImageView {
         addConstrainedSubview(activityIndicator)
     }
 
-    func setupImage(with urlString: String) {
+    func setupImage(with url: URL?) {
         Task { @MainActor in
             self.activityIndicator.startAnimating()
-            if let image = await cacheManager.imageFromCacheOrLoad(urlString) {
+            if let image = try? await cacheManager.imageFromCacheOrLoad(url) {
                 self.image = image
-                self.activityIndicator.stopAnimating()
             }
+            self.activityIndicator.stopAnimating()
         }
     }
 }

@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import Foundation
 
 struct MDBCastMember: Decodable {
@@ -53,3 +52,22 @@ struct MDBCastMember: Decodable {
         self.order = try container.decode(.order)
     }
 }
+
+#if DEBUG
+extension MDBCastMember {
+    init(adult: Bool, gender: Int, id: Int, knownForDepartment: String, name: String, originalName: String, popularity: Double, profilePath: String?, castId: Int, character: String, creditId: String, order: Int) {
+        self.adult = adult
+        self.gender = gender
+        self.id = id
+        self.knownForDepartment = knownForDepartment
+        self.name = name
+        self.originalName = originalName
+        self.popularity = popularity
+        self.profilePath = profilePath
+        self.castId = castId
+        self.character = character
+        self.creditId = creditId
+        self.order = order
+    }
+}
+#endif

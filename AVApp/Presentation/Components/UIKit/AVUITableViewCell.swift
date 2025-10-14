@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 12/10/2025.
 //
 
-
 import UIKit
 
 class AVUITableViewCell<ContentView: UIView>: UITableViewCell {

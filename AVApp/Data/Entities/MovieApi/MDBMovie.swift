@@ -40,23 +40,6 @@ struct MDBMovie: Decodable {
         case voteCount = "vote_count"
     }
 
-    init(adult: Bool, backdropPath: String?, genreIds: [Int], id: Int, originalLanguage: String, originalTitle: String, overview: String, popularity: Double, posterPath: String?, releaseDate: Date, title: String, video: Bool, voteAverage: Double, voteCount: Int) {
-        self.adult = adult
-        self.backdropPath = backdropPath
-        self.genreIds = genreIds
-        self.id = id
-        self.originalLanguage = originalLanguage
-        self.originalTitle = originalTitle
-        self.overview = overview
-        self.popularity = popularity
-        self.posterPath = posterPath
-        self.releaseDate = releaseDate
-        self.title = title
-        self.video = video
-        self.voteAverage = voteAverage
-        self.voteCount = voteCount
-    }
-
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.adult = try container.decode(.adult)
@@ -74,4 +57,26 @@ struct MDBMovie: Decodable {
         self.voteAverage = try container.decode(.voteAverage)
         self.voteCount = try container.decode(.voteCount)
     }
+}
+
+extension MDBMovie {
+    #if DEBUG
+    init(adult: Bool, backdropPath: String?, genreIds: [Int], id: Int, originalLanguage: String, originalTitle: String, overview: String, popularity: Double, posterPath: String?, releaseDate: Date?, title: String, video: Bool, voteAverage: Double, voteCount: Int) {
+        self.adult = adult
+        self.backdropPath = backdropPath
+        self.genreIds = genreIds
+        self.id = id
+        self.originalLanguage = originalLanguage
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.popularity = popularity
+        self.posterPath = posterPath
+        self.releaseDate = releaseDate
+        self.title = title
+        self.video = video
+        self.voteAverage = voteAverage
+        self.voteCount = voteCount
+    }
+    #endif
+
 }

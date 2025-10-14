@@ -49,7 +49,7 @@ final class AVUIMovieCell: AVNibView {
         self.genresLabel.text = model.genres.joined(separator: ", ")
         self.ratingLabel.text = String(localized: .movieRate(rate: model.rating.roundedTo1Decimal, numberOfRates: Int32(model.numberOfRatings)))
         self.synopsisLabel.text = model.synopsis
-        if let posterUrl = model.posterUrl {
+        if let posterUrl = model.posterUrl(.medium) {
             self.posterImageView.setupImage(with: posterUrl)
         }
     }

@@ -14,4 +14,5 @@ protocol Coordinator: AnyObject {
     // MARK: Methods
     func start()
     func navigateToDetail(movie: AVMovie)
+    func navigateToSearch()
 }

@@ -5,14 +5,13 @@
 //  Created by Alexandre Faltot on 10/10/2025.
 //
 
-
 import UIKit
 import Combine
 import SwiftUI
 
 @IBDesignable
 class AVUILabel: UILabel {
-    @IBInspectable var style: Int = 1{
+    @IBInspectable var style: Int = 1 {
         didSet {
             setStyle(style)
         }
@@ -27,7 +26,7 @@ class AVUILabel: UILabel {
         super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()

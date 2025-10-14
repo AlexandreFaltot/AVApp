@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <accessibilityOverrides/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
@@ -40,7 +41,7 @@
                                             <constraint firstAttribute="height" constant="48" id="ImN-Km-XvO"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Button" titleAlignment="leading"/>
+                                        <buttonConfiguration key="configuration" style="plain"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizedTitleKey" value="search_movie"/>
                                             <userDefinedRuntimeAttribute type="image" keyPath="leadingImage" value="AVSearch"/>
@@ -71,8 +72,8 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="GLU-4o-gId">
                                 <rect key="frame" x="186.66666666666666" y="577" width="20" height="20"/>
                             </activityIndicatorView>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ni-M4-j5I" customClass="AVUIRetryView" customModule="AVApp" customModuleProvider="target">
-                                <rect key="frame" x="76" y="523" width="240" height="128"/>
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="5Ni-M4-j5I" customClass="AVUIRetryView" customModule="AVApp" customModuleProvider="target">
+                                <rect key="frame" x="76.666666666666686" y="523" width="240" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>

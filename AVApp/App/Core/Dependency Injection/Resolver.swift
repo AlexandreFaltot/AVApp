@@ -11,8 +11,8 @@ typealias Scope = KeyPath<Module, any Container>
 final class Module {
     public static let shared = Module()
 
-    let single: Container = SingleContainer()
-    let instance: Container = InstanceContainer()
+    let single: any Container = SingleContainer()
+    let instance: any Container = InstanceContainer()
 
     ///
     /// Registers a dependency for a given container
@@ -22,8 +22,8 @@ final class Module {
     ///   - container: The container that will receive the dependency
     ///   - dependency: The dependency to register
     ///
-    func register<T>(_ type: T.Type = T.self, in scope: Scope = \.single, _ dependency: @escaping (Container) -> T) {
-        self[keyPath: scope].register(type, dependency)
+    func register<T>(_ type: T.Type = T.self, in scope: Scope = \.single, _ dependency: @escaping (any Container) throws -> T) {
+        try! self[keyPath: scope].register(type, dependency)
     }
 
     ///

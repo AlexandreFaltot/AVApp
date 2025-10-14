@@ -16,7 +16,10 @@ class MovieDetailScreenViewModel: ObservableObject {
         self.movieId = movieId
         self.getMovieDetailsUseCase = getMovieDetailsUseCase
     }
+}
 
+@MainActor
+extension MovieDetailScreenViewModel {
     func getMovieDetails() async throws -> AVMovieDetails {
         try await getMovieDetailsUseCase.execute(.init(id: movieId))
     }

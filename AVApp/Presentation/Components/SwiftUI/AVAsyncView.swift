@@ -123,6 +123,7 @@ struct AVAsyncView<T, Content: View>: View {
     }
 }
 
+#if DEBUG
 #Preview("Loader with success") {
     VStack {
         AVAsyncView {
@@ -149,3 +150,4 @@ struct AVAsyncView<T, Content: View>: View {
     }
     .background(.avPrimary)
 }
+#endif

@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 14/10/2025.
 //
 
-
 protocol Container {
     func register<T>(_ type: T.Type, _ registration: @escaping (Self) throws -> T) rethrows
     func resolve<T>(_ type: T.Type) throws -> T

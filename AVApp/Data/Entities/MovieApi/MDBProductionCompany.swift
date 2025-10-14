@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import Foundation
 
 struct MDBProductionCompany: Codable {

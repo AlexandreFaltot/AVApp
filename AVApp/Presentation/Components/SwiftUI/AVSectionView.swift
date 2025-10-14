@@ -5,7 +5,6 @@
 //  Created by Alexandre Faltot on 13/10/2025.
 //
 
-
 import SwiftUI
 
 extension EnvironmentValues {
@@ -18,7 +17,7 @@ extension View {
     }
 }
 
-struct AVSectionView<ContentView: View>: View{
+struct AVSectionView<ContentView: View>: View {
     let title: String
     @Environment(\.contentPadding) var contentPadding
     @ViewBuilder let content: () -> ContentView
@@ -40,6 +39,7 @@ struct AVSectionView<ContentView: View>: View{
     }
 }
 
+#if DEBUG
 #Preview {
     VStack(alignment: .leading) {
         AVSectionView(title: "Title") {
@@ -58,3 +58,4 @@ struct AVSectionView<ContentView: View>: View{
     }
     .background(Color.avPrimary)
 }
+#endif

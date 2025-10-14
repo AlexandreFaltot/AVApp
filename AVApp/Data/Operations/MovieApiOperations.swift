@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Operations instances
 struct MovieApiOperations {
     static var getGenres: MovieApiOperation<EmptyBody, MDBGenreResponse> {
         .init(method: .get,
@@ -37,6 +38,7 @@ struct MovieApiOperations {
     }
 }
 
+// MARK: - MovieApiOperation
 class MovieApiOperation<Body: Encodable, Response: Decodable>: RestApiOperation<Body, Response> {
     fileprivate init(method: HttpMethod, endpoint: String, body: Body, queryItems: [URLQueryItem] = [], cachePolicy: URLRequest.CachePolicy = .reloadIgnoringLocalCacheData) {
         super.init(method: method,
@@ -55,10 +57,11 @@ extension MovieApiOperation where Body == EmptyBody {
     }
 }
 
+// MARK: - Extensions
 fileprivate extension Collection where Element == URLQueryItem {
     static func defaultItems() -> [URLQueryItem] {
         [.language(Locale.current.language.languageCode?.identifier ?? "en"),
-         .apiKey(Constants.movieDBApiKey)]
+         .apiKey(MDBConstants.movieDBApiKey)]
     }
 }
 
@@ -74,7 +77,7 @@ fileprivate extension MovieApiOperation where Body == EmptyBody {
     }
 }
 
-extension URLQueryItem {
+fileprivate extension URLQueryItem {
     static func language(_ value: String) -> URLQueryItem { URLQueryItem(name: "language", value: value) }
     static func apiKey(_ value: String?) -> URLQueryItem { URLQueryItem(name: "api_key", value: value) }
     static func page(_ value: Int) -> URLQueryItem { URLQueryItem(name: "page", value: value.description) }

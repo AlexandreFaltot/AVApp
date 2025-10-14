@@ -11,7 +11,7 @@ struct AVMovieHeadliner: Identifiable, Hashable {
     let id: Int
     let characterName: String
     let name: String
-    let imageUrl: URL?
+    let profileImagePath: String?
 }
 
 extension AVMovieHeadliner {
@@ -19,11 +19,15 @@ extension AVMovieHeadliner {
         self.id = mdbCast.id
         self.characterName = mdbCast.character
         self.name = mdbCast.name
-        if let profilePath = mdbCast.profilePath {
-            self.imageUrl = URL(string: MDBConstants.baseImageUrl + profilePath)
-        } else {
-            self.imageUrl = nil
+        self.profileImagePath = mdbCast.profilePath
+    }
+
+    func profileImageUrl(_ size: MDBProfileSize) -> URL? {
+        guard let profileImagePath else {
+            return nil
         }
+
+        return URL(string: "\(MDBConstants.baseImageUrl)/\(size.rawValue)\(profileImagePath)")
     }
 }
 
@@ -32,7 +36,7 @@ extension AVMovieHeadliner {
     static let mock: AVMovieHeadliner = AVMovieHeadliner(id: 0,
                                                          characterName: "Character",
                                                          name: "Name",
-                                                         imageUrl: URL(string: MDBConstants.baseImageUrl + "/5Vs7huBmTKftwlsc2BPAntyaQYj.jpg"))
+                                                         profileImagePath: "/5Vs7huBmTKftwlsc2BPAntyaQYj.jpg")
 }
 
 extension Array where Element == AVMovieHeadliner {
