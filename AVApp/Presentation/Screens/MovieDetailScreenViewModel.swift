@@ -7,16 +7,12 @@
 
 import Combine
 
-protocol MovieDetailScreenViewModelProtocol: ObservableObject {
-    func getMovieDetails() async throws -> AVMovieDetails
-}
-
-class MovieDetailScreenViewModel: MovieDetailScreenViewModelProtocol {
+class MovieDetailScreenViewModel: ObservableObject {
     private let movieId: Int
     private let getMovieDetailsUseCase: any GetMovieDetailsUseCaseProtocol
 
     init(movieId: Int,
-         getMovieDetailsUseCase: any GetMovieDetailsUseCaseProtocol = GetMovieDetailsUseCase()) {
+         getMovieDetailsUseCase: any GetMovieDetailsUseCaseProtocol = Module.shared.resolve(scope: \.instance)) {
         self.movieId = movieId
         self.getMovieDetailsUseCase = getMovieDetailsUseCase
     }

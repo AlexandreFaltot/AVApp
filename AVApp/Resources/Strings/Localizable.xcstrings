@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "app_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -14,6 +17,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie Explorer"
+          }
+        }
+      }
+    },
+    "date_and_genre" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(date)@ | %2$(genre)@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(date)@ | %2$(genre)@"
           }
         }
       }
@@ -133,6 +153,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$(rate)@/5 (%2$(numberOfRates)d avis)"
+          }
+        }
+      }
+    },
+    "no_movie_result" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorry, we could not find any result for your search."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désolé, nous n’avons pas parvenu à trouver de résultat pour votre recherche"
           }
         }
       }

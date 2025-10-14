@@ -32,7 +32,7 @@ extension AVMovieHeadliner {
     static let mock: AVMovieHeadliner = AVMovieHeadliner(id: 0,
                                                          characterName: "Character",
                                                          name: "Name",
-                                                         imageUrl: nil)
+                                                         imageUrl: URL(string: MDBConstants.baseImageUrl + "/5Vs7huBmTKftwlsc2BPAntyaQYj.jpg"))
 }
 
 extension Array where Element == AVMovieHeadliner {

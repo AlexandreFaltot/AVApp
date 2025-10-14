@@ -8,9 +8,7 @@
 import Foundation
 
 class NetworkCacheManager {
-    static let shared = NetworkCacheManager()
-
-    private init() {
+    init() {
         configureCache()
     }
 

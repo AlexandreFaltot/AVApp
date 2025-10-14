@@ -23,7 +23,7 @@ struct MDBMovieDetails: Decodable {
     let posterPath: String?
     let productionCompanies: [MDBProductionCompany]
     let productionCountries: [MDBProductionCountry]
-    let releaseDate: Date
+    let releaseDate: Date?
     let revenue: Int
     let runtime: Int
     let spokenLanguages: [MDBSpokenLanguage]

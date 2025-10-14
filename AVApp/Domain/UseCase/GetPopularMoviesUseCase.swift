@@ -15,11 +15,10 @@ class GetPopularMoviesUseCase: GetPopularMoviesUseCaseProtocol {
     private let movieRepository: any MovieRepositoryProtocol
     private let genreRepository: any GenreRepositoryProtocol
 
-    init(movieRepository: any MovieRepositoryProtocol = MovieRepository(),
-         genreRepository: any GenreRepositoryProtocol = GenreRepository()) {
+    init(movieRepository: any MovieRepositoryProtocol = Module.shared.resolve(),
+         genreRepository: any GenreRepositoryProtocol = Module.shared.resolve()) {
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
-
     }
 
     func execute(_ parameters: GetPopularMoviesParameters) async throws -> [AVMovie] {
@@ -35,13 +34,13 @@ class GetPopularMoviesUseCase: GetPopularMoviesUseCaseProtocol {
 // MARK: - Mocks
 
 #if DEBUG
-class GetListUseCaseErrorMock: GetPopularMoviesUseCaseProtocol {
+class GetPopularMoviesUseCaseErrorMock: GetPopularMoviesUseCaseProtocol {
     func execute(_ parameters: GetPopularMoviesParameters) async throws -> [AVMovie] { throw PreviewError.sample }
 }
-class GetListUseCaseEmptyListMock: GetPopularMoviesUseCaseProtocol {
+class GetPopularMoviesUseCaseEmptyMock: GetPopularMoviesUseCaseProtocol {
     func execute(_ parameters: GetPopularMoviesParameters) async throws -> [AVMovie] { [] }
 }
-class GetListUseCaseListMock: GetPopularMoviesUseCaseProtocol {
+class GetPopularMoviesUseCaseMock: GetPopularMoviesUseCaseProtocol {
     func execute(_ parameters: GetPopularMoviesParameters) async throws -> [AVMovie] { .mockTenMovies }
 }
 #endif

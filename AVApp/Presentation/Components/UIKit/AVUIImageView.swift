@@ -9,7 +9,10 @@
 import Foundation
 import UIKit
 
+@IBDesignable
 class AVUIImageView: UIImageView {
+    private let cacheManager: ImageCacheManager = Module.shared.resolve()
+
     lazy var activityIndicator = {
         let indicator = UIActivityIndicatorView()
         indicator.tintColor = .avWhite
@@ -33,7 +36,7 @@ class AVUIImageView: UIImageView {
     func setupImage(with urlString: String) {
         Task { @MainActor in
             self.activityIndicator.startAnimating()
-            if let image = await ImageCacheManager.shared.imageFromCacheOrLoad(urlString) {
+            if let image = await cacheManager.imageFromCacheOrLoad(urlString) {
                 self.image = image
                 self.activityIndicator.stopAnimating()
             }

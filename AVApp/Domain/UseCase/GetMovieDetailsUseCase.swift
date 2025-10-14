@@ -14,7 +14,7 @@ struct GetMovieDetailsUseCaseParameters {
 class GetMovieDetailsUseCase: GetMovieDetailsUseCaseProtocol {
     private let movieRepository: any MovieRepositoryProtocol
 
-    init(movieRepository: any MovieRepositoryProtocol = MovieRepository()) {
+    init(movieRepository: any MovieRepositoryProtocol = Module.shared.resolve()) {
         self.movieRepository = movieRepository
     }
 

@@ -7,6 +7,7 @@
 
 import UIKit
 
+@IBDesignable
 class AVUIRetryView: AVNibView {
     @IBInspectable var localizedErrorMessageKey: String? {
         get { errorMessageLabel.localizedKey }

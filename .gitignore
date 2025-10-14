@@ -14,6 +14,7 @@ DerivedData/
 *.xcuserstate
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
+Secrets.xcconfig
 
 # Swift Package Manager
 .swiftpm/

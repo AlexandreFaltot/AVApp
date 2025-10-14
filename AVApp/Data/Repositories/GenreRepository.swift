@@ -15,7 +15,7 @@ protocol GenreRepositoryProtocol {
 class GenreRepository: GenreRepositoryProtocol {
     private let restClient: RestClientProtocol
 
-    init(restClient: RestClientProtocol = RestClient.shared) {
+    init(restClient: RestClientProtocol = Module.shared.resolve()) {
         self.restClient = restClient
     }
 

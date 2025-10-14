@@ -10,23 +10,10 @@ import UIKit
 import Combine
 import SwiftUI
 
-@MainActor
-protocol MovieListViewModelProtocol {
-    var moviesPublisher: AnyPublisher<AsyncState<[AVMovie]>, Never> { get }
-    var nbOfMovies: Int { get }
-    var shouldShowRetry: Bool { get }
-    var shouldShowMovies: Bool { get }
-    var shouldShowLoading: Bool { get }
-    func initialize()
-    func refreshMovies()
-    func getNextMovies()
-    func askForMovieDetails(at index: Int)
-    func movie(at index: Int) -> AVMovie?
-}
-
-@MainActor
-class MovieListViewModel: MovieListViewModelProtocol {
-    @Published private var moviesResult: AsyncState<[AVMovie]> = .idle
+class MovieListViewModel {
+    // MARK: - Private properties
+    @Published private var moviesResult: AsyncState<[AVMovie]> = .loading
+    private let getPopularMoviesUseCase: any GetPopularMoviesUseCaseProtocol
     private var currentPage = 1
     private var fetchedMovies: [AVMovie] {
         guard case let .success(movies) = moviesResult else {
@@ -35,9 +22,13 @@ class MovieListViewModel: MovieListViewModelProtocol {
         return movies
     }
 
-    var moviesPublisher: AnyPublisher<AsyncState<[AVMovie]>, Never> { $moviesResult.eraseToAnyPublisher() }
+    // MARK: - Public properties
     @Published var isGettingMovies = false
+    var moviesPublisher: AnyPublisher<AsyncState<[AVMovie]>, Never> { $moviesResult.eraseToAnyPublisher() }
     var onAskForMovieDetails: ((AVMovie) -> Void)?
+    var onAskForMovieSearch: (() -> Void)?
+
+    // MARK: - Computed properties
     var nbOfMovies: Int {
         fetchedMovies.count
     }
@@ -48,24 +39,17 @@ class MovieListViewModel: MovieListViewModelProtocol {
         moviesResult.isSuccess && !fetchedMovies.isEmpty
     }
     var shouldShowLoading: Bool {
-        moviesResult.isIdle
+        moviesResult.isLoading
     }
-    let getPopularMoviesUseCase: any GetPopularMoviesUseCaseProtocol
 
-    init(getPopularMoviesUseCase: any GetPopularMoviesUseCaseProtocol) {
+    // MARK: - Init
+    init(getPopularMoviesUseCase: any GetPopularMoviesUseCaseProtocol = Module.shared.resolve(scope: \.instance)) {
         self.getPopularMoviesUseCase = getPopularMoviesUseCase
     }
 
+    // MARK: - Public methods
     func initialize() {
         refreshMovies()
-    }
-
-    func askForMovieDetails(at index: Int) {
-        guard let movie = fetchedMovies[safe: index] else {
-            return
-        }
-
-        onAskForMovieDetails?(movie)
     }
 
     func refreshMovies() {
@@ -81,9 +65,8 @@ class MovieListViewModel: MovieListViewModelProtocol {
         }
     }
 
-    @MainActor
     func getNextMovies() {
-        Task {
+        Task { @MainActor in
             do {
                 let result = try await getPopularMoviesUseCase.execute(.init(page: currentPage + 1))
                 self.currentPage += 1
@@ -101,35 +84,16 @@ class MovieListViewModel: MovieListViewModelProtocol {
         
         return movies[safe: index]
     }
-}
 
-#if DEBUG
-class MockMovieListViewModel: MovieListViewModelProtocol {
-    @Published private var moviesResult: AsyncState<[AVMovie]> = .idle
-    private var movies: [AVMovie] { moviesResult.result ?? [] }
+    func askForMovieDetails(at index: Int) {
+        guard let movie = fetchedMovies[safe: index] else {
+            return
+        }
 
-    var moviesPublisher: AnyPublisher<AsyncState<[AVMovie]>, Never> { $moviesResult.eraseToAnyPublisher() }
-    var nbOfMovies: Int { movies.count }
-    var shouldShowRetry: Bool {
-        moviesResult.isFailure && movies.isEmpty
-    }
-    var shouldShowMovies: Bool {
-        moviesResult.isSuccess && !movies.isEmpty
-    }
-    var shouldShowLoading: Bool {
-        moviesResult.isIdle
+        onAskForMovieDetails?(movie)
     }
 
-    func initialize() {}
-    func askForMovieDetails(at index: Int) { }
-    func refreshMovies() {
-        moviesResult = .success(result: .mockTenMovies)
-    }
-    func getNextMovies() {
-        moviesResult = .success(result: movies + .mockTenMovies)
-    }
-    func movie(at index: Int) -> AVMovie? {
-        movies[safe: index]
+    func askForMovieSearch() {
+        onAskForMovieSearch?()
     }
 }
-#endif

@@ -8,23 +8,30 @@
 
 import SwiftUI
 
-struct AVHeaderView: View {
+struct AVHeaderView<Subtitle: View>: View {
     let title: String
-    let subtitle: String
+    let subtitle: () -> Subtitle
+
+    init(title: String, @ViewBuilder subtitle: @escaping () -> Subtitle) {
+        self.title = title
+        self.subtitle = subtitle
+    }
 
     var body: some View {
         VStack(alignment: .center, spacing: 16.0) {
             Text(title)
                 .avStyle(.header1)
-            Text(subtitle)
-                .avStyle(.header2)
+            subtitle()
         }
         .padding(16.0)
     }
 }
 
 #Preview {
-    AVHeaderView(title: "Title", subtitle: "Subtitle")
-        .background(Color.avPrimary)
-        .frame(width: 300)
+    AVHeaderView(title: "Title") {
+        Text("Subtitle")
+            .avStyle(.header2)
+    }
+    .background(Color.avPrimary)
+    .frame(width: 300)
 }

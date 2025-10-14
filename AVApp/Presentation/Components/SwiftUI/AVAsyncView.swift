@@ -27,21 +27,40 @@ struct AVAsyncView<T, Content: View>: View {
     // MARK: - Environment
     @Environment(\.allowRetry) private var allowRetry: Bool
     @Environment(\.displayErrorMessage) private var displayErrorMessage: Bool
-    
+
     // MARK: - State
-    @State private var asyncState: AsyncState<T> = .idle
+    @State private var internalAsyncState: AsyncState<T> = .idle
 
     // MARK: - Properties
     private let content: (T) -> Content
-    private let action: @MainActor @Sendable () async throws -> T
+    private let action: (@MainActor @Sendable () async throws -> T)?
+    private let externalState: AsyncState<T>?
+    private let onRetry: (() -> Void)?
+    private var asyncState: AsyncState<T> {
+        externalState ?? internalAsyncState
+    }
 
     // MARK: - Initialization
+
     init(
         action: @escaping @MainActor @Sendable () async throws -> T,
         @ViewBuilder content: @escaping (T) -> Content
     ) {
         self.content = content
         self.action = action
+        self.externalState = nil
+        self.onRetry = nil
+    }
+
+    init(
+        state: AsyncState<T>,
+        onRetry: @escaping () -> Void,
+        @ViewBuilder content: @escaping (T) -> Content
+    ) {
+        self.content = content
+        self.action = nil
+        self.externalState = state
+        self.onRetry = onRetry
     }
 
     // MARK: - Body
@@ -49,7 +68,10 @@ struct AVAsyncView<T, Content: View>: View {
         Group {
             switch asyncState {
             case .idle:
+                Spacer()
+            case .loading:
                 ProgressView()
+                    .tint(.avWhite)
             case .success(let data):
                 content(data)
             case .failure(let error):
@@ -59,47 +81,71 @@ struct AVAsyncView<T, Content: View>: View {
                     }
                     if allowRetry {
                         Button {
-                            launchAction()
+                            handleRetry()
                         } label: {
                             Text(.retry)
                         }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.avYellow)
                     }
                 }
+                .avStyle(.paragraph)
             }
         }
         .onLoad {
-            launchAction()
+            if action != nil {
+                launchAction()
+            }
         }
     }
 
     // MARK: - Methods
-    func launchAction() {
-        Task {
-            asyncState = .idle
+    private func handleRetry() {
+        if let onRetry = onRetry {
+            onRetry()
+        } else {
+            launchAction()
+        }
+    }
+
+    private func launchAction() {
+        guard let action = action else { return }
+
+        Task { @MainActor in
+            internalAsyncState = .loading
             do {
                 let result = try await action()
-                asyncState = .success(result: result)
+                internalAsyncState = .success(result: result)
             } catch {
-                asyncState = .failure(error: error)
+                internalAsyncState = .failure(error: error)
             }
         }
     }
 }
 
 #Preview("Loader with success") {
-    AVAsyncView {
-        try await Task.sleep(for: .seconds(3))
-        return "Loaded"
-    } content: { text in
-        Text(text)
+    VStack {
+        AVAsyncView {
+            try await Task.sleep(for: .seconds(1))
+            return "Loaded"
+        } content: { text in
+            Text(text)
+                .avStyle(.header2)
+        }
+        .frame(width: 375, height: 500)
     }
+    .background(.avPrimary)
 }
 
 #Preview("Loader with error") {
-    AVAsyncView {
-        try await Task.sleep(for: .seconds(1))
-        throw OperationError.malformedUrl
-    } content: {
-        Text("Loaded")
+    VStack {
+        AVAsyncView {
+            try await Task.sleep(for: .seconds(1))
+            throw OperationError.malformedUrl
+        } content: {
+            Text("Loaded")
+        }
+        .frame(width: 375, height: 500)
     }
+    .background(.avPrimary)
 }

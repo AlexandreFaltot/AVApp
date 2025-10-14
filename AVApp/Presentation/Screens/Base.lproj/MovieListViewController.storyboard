@@ -19,9 +19,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="P2i-Ff-sis">
-                                <rect key="frame" x="16" y="134" width="361" height="116"/>
+                                <rect key="frame" x="16" y="134" width="361" height="180"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v55-tv-UVs" customClass="AVUILabel" customModule="AVApp" customModuleProvider="target">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v55-tv-UVs" userLabel="Title label" customClass="AVUILabel" customModule="AVApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -34,8 +34,23 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="localizedKey" value="app_title"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxH-bx-VYX" customClass="AVUILabel" customModule="AVApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="361" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1fN-t7-f9J" customClass="AVUIFieldButton" customModule="AVApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="66" width="361" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="ImN-Km-XvO"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button" titleAlignment="leading"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="localizedTitleKey" value="search_movie"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="leadingImage" value="AVSearch"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onAskForSearch:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="j9h-a7-Gzy"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxH-bx-VYX" userLabel="Subtitle label" customClass="AVUILabel" customModule="AVApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="130" width="361" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -49,15 +64,15 @@
                                 </subviews>
                             </stackView>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="BFI-w4-s23" customClass="AVUITableView" customModule="AVApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="258" width="393" height="594"/>
+                                <rect key="frame" x="0.0" y="322" width="393" height="530"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="GLU-4o-gId">
-                                <rect key="frame" x="186.66666666666666" y="545" width="20" height="20"/>
+                                <rect key="frame" x="186.66666666666666" y="577" width="20" height="20"/>
                             </activityIndicatorView>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ni-M4-j5I" customClass="AVUIRetryView" customModule="AVApp" customModuleProvider="target">
-                                <rect key="frame" x="76" y="362" width="240" height="128"/>
+                                <rect key="frame" x="76" y="523" width="240" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -86,10 +101,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="70"/>
+            <point key="canvasLocation" x="135.1145038167939" y="69.718309859154928"/>
         </scene>
     </scenes>
     <resources>
+        <image name="AVSearch" width="16" height="16"/>
         <namedColor name="av_primary">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

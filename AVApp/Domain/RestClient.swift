@@ -25,11 +25,9 @@ protocol RestClientProtocol {
 }
 
 class RestClient: RestClientProtocol {
-    static let shared: RestClient = RestClient()
-
     private let urlSession: URLSession
 
-    init(urlSession: URLSession = .shared) {
+    init(urlSession: URLSession) {
         self.urlSession = urlSession
     }
 

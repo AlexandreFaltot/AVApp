@@ -13,7 +13,7 @@ struct AVMovieDetails {
     let posterUrl: URL?
     let backdrop: URL?
     let runtime: Int
-    let releaseDate: Date
+    let releaseDate: Date?
     let genres: [String]
     let rating: Double
     let numberOfRatings: Int
@@ -53,8 +53,8 @@ extension AVMovieDetails {
 extension AVMovieDetails {
     static let mock: AVMovieDetails = AVMovieDetails(id: 0,
                                                      title: "Title",
-                                                     posterUrl: nil,
-                                                     backdrop: nil,
+                                                     posterUrl: URL(string: MDBConstants.baseImageUrl + "/CT7EhbB5yVLdUfvIiZs5QhOvgU.jpg"),
+                                                     backdrop: URL(string: MDBConstants.baseImageUrl + "/9DYFYhmbXRGsMhfUgXM3VSP9uLX.jpg"),
                                                      runtime: 100,
                                                      releaseDate: Date(),
                                                      genres: ["Thriller"],

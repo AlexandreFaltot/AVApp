@@ -43,4 +43,17 @@ struct UIViewPreview: UIViewRepresentable {
         // no-op
     }
 }
+
+struct PreviewContainer<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        Module.shared.registerPreviewsDependencies()
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+    }
+}
 #endif

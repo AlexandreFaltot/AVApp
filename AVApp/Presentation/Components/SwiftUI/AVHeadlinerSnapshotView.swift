@@ -32,7 +32,9 @@ struct AVHeadlinerSnapshotView: View {
 }
 
 #Preview {
-    VStack {
-        AVHeadlinerSnapshotView(headliner: .mock)
+    PreviewContainer {
+        VStack {
+            AVHeadlinerSnapshotView(headliner: .mock)
+        }
     }
 }

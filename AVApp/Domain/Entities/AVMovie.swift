@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct AVMovie {
+struct AVMovie: Identifiable {
     let id: Int
     let title: String
     let posterUrl: String?
-    let releaseDate: Date
+    let releaseDate: Date?
     let genres: [String]
     let rating: Double
     let numberOfRatings: Int
@@ -49,7 +49,7 @@ extension AVMovie {
 extension AVMovie {
     static let mock: AVMovie = AVMovie(id: 0,
                                        title: "Title",
-                                       posterUrl: nil,
+                                       posterUrl: "https://image.tmdb.org/t/p/w500/sprAGPxYPxLkcDqNK29SCGURTrp.jpg",
                                        releaseDate: Date(),
                                        genres: ["Thriller"],
                                        rating: 2.562,
@@ -59,7 +59,16 @@ extension AVMovie {
 
 extension Collection where Element == AVMovie {
     static var mockTenMovies: [AVMovie] {
-        (0..<10).map { _ in AVMovie.mock }
+        (0..<10).map { index in
+            AVMovie(id: index,
+                    title: "Title \(index)",
+                    posterUrl: "https://image.tmdb.org/t/p/w500/sprAGPxYPxLkcDqNK29SCGURTrp.jpg",
+                    releaseDate: Date(),
+                    genres: ["Genre \(index)"],
+                    rating: 2.562,
+                    numberOfRatings: 60,
+                    synopsis: "Synopsis \(index)")
+        }
     }
 }
 #endif

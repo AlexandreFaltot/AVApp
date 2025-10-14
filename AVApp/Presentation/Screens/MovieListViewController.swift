@@ -30,7 +30,7 @@ class MovieListViewController: UIViewController {
     private var cancellables: Set<AnyCancellable> = []
     private var isFetchingMoreMovies: Bool = false
 
-    var viewModel: (any MovieListViewModelProtocol)?
+    var viewModel: MovieListViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +67,7 @@ class MovieListViewController: UIViewController {
                 self.tableFooterView.stopAnimating()
 
                 switch state {
-                case .idle:
+                case .idle, .loading:
                     self.activityIndicator.startAnimating()
                 case .success:
                     self.activityIndicator.stopAnimating()
@@ -85,6 +85,11 @@ class MovieListViewController: UIViewController {
 
     @IBAction func refresh(_ sender: UIRefreshControl) {
         viewModel?.refreshMovies()
+    }
+
+
+    @IBAction func onAskForSearch(_ sender: AVUIFieldButton) {
+        viewModel?.askForMovieSearch()
     }
 }
 
@@ -124,17 +129,39 @@ extension MovieListViewController: UITableViewDataSource {
             viewModel?.getNextMovies()
         }
     }
-
 }
 
 #if DEBUG
 import SwiftUI
 
-#Preview("MovieListViewController preview") {
-    UIViewControllerPreview(controller: {
-        let viewController = MovieListViewController.instanceFromStoryboard()
-        viewController?.viewModel = MockMovieListViewModel()
-        return viewController ?? UIViewController()
-    }())
+#Preview("Success preview") {
+    PreviewContainer {
+        UIViewControllerPreview(controller: {
+            let viewController = MovieListViewController.instanceFromStoryboard()
+            viewController?.viewModel = MovieListViewModel(getPopularMoviesUseCase: GetPopularMoviesUseCaseMock())
+            return viewController ?? UIViewController()
+        }())
+    }
+}
+
+#Preview("Error preview") {
+    PreviewContainer {
+        UIViewControllerPreview(controller: {
+            let viewController = MovieListViewController.instanceFromStoryboard()
+            viewController?.viewModel = MovieListViewModel(getPopularMoviesUseCase: GetPopularMoviesUseCaseErrorMock())
+            return viewController ?? UIViewController()
+        }())
+    }
+}
+
+
+#Preview("Empty list") {
+    PreviewContainer {
+        UIViewControllerPreview(controller: {
+            let viewController = MovieListViewController.instanceFromStoryboard()
+            viewController?.viewModel = MovieListViewModel(getPopularMoviesUseCase: GetPopularMoviesUseCaseEmptyMock())
+            return viewController ?? UIViewController()
+        }())
+    }
 }
 #endif

@@ -38,7 +38,7 @@ struct AVMovieRatingView: View {
         .background(.avPrimary)
         .cornerRadius(16.0)
         .shadow(radius: 2, y: 4)
-        .avStyle(.paragraph)
+        .avStyle(.paragraphBold)
     }
 }
 

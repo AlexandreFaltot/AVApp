@@ -8,6 +8,12 @@
 import Foundation
 
 struct MovieApiOperations {
+    static var getGenres: MovieApiOperation<EmptyBody, MDBGenreResponse> {
+        .init(method: .get,
+              endpoint: "/genre/movie/list",
+              cachePolicy: .returnCacheDataElseLoad)
+    }
+
     static func getPopularMovies(page: Int) -> MovieApiOperation<EmptyBody, MDBMoviesResponse> {
         .init(method: .get,
               endpoint: "/discover/movie",
@@ -24,10 +30,10 @@ struct MovieApiOperations {
               endpoint: "/movie/\(id)/credits")
     }
 
-    static var getGenres: MovieApiOperation<EmptyBody, MDBGenreResponse> {
+    static func searchMovies(query: String) -> MovieApiOperation<EmptyBody, MDBMoviesResponse> {
         .init(method: .get,
-              endpoint: "/genre/movie/list",
-              cachePolicy: .returnCacheDataElseLoad)
+              endpoint: "/search/movie",
+              queryItems: [.query(query)])
     }
 }
 
@@ -72,4 +78,5 @@ extension URLQueryItem {
     static func language(_ value: String) -> URLQueryItem { URLQueryItem(name: "language", value: value) }
     static func apiKey(_ value: String?) -> URLQueryItem { URLQueryItem(name: "api_key", value: value) }
     static func page(_ value: Int) -> URLQueryItem { URLQueryItem(name: "page", value: value.description) }
+    static func query(_ value: String) -> URLQueryItem { URLQueryItem(name: "query", value: value) }
 }

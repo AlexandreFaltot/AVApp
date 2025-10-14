@@ -7,16 +7,30 @@
 
 import SwiftUI
 
-struct MovieDetailView<ViewModel: MovieDetailScreenViewModelProtocol>: View {
-    @StateObject var viewModel: ViewModel
+struct MovieDetailScreenView: View {
+    @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: MovieDetailScreenViewModel
 
     var body: some View {
         AVAsyncView {
             try await viewModel.getMovieDetails()
         } content: { data in
             VStack {
-                AVHeaderView(title: String(localized: .appTitle),
-                         subtitle: data.title)
+                AVHeaderView(title: String(localized: .appTitle)) {
+                    Text(data.title)
+                        .avStyle(.header2)
+                }
+                .frame(maxWidth: .infinity)
+                .overlay(alignment: .topLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(.avBackButton)
+                            .frame(width: 20, height: 28, alignment: .leading)
+                    }
+                    .padding(12.0)
+                    .offset(y: 10.0)
+                }
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0.0) {
                         AVMovieSnapshotView(movie: data)
@@ -40,6 +54,7 @@ struct MovieDetailView<ViewModel: MovieDetailScreenViewModelProtocol>: View {
                         }
                         .contentPadding(EdgeInsets())
                     }
+                    .padding(.bottom, 16.0)
                 }
             }
             .background(.avPrimary)
@@ -47,10 +62,15 @@ struct MovieDetailView<ViewModel: MovieDetailScreenViewModelProtocol>: View {
     }
 }
 
-#Preview("Error preview") {
-    MovieDetailView(viewModel: MovieDetailScreenViewModel(movieId: 0, getMovieDetailsUseCase: GetMovieDetailsUseCaseErrorMock()))
-}
 #Preview("Movie preview") {
-    MovieDetailView(viewModel: MovieDetailScreenViewModel(movieId: 0, getMovieDetailsUseCase: GetMovieDetailsUseCaseMock()))
+    PreviewContainer {
+        MovieDetailScreenView(viewModel: MovieDetailScreenViewModel(movieId: 0, getMovieDetailsUseCase: GetMovieDetailsUseCaseMock()))
+    }
+}
+
+#Preview("Error preview") {
+    PreviewContainer {
+        MovieDetailScreenView(viewModel: MovieDetailScreenViewModel(movieId: 0, getMovieDetailsUseCase: GetMovieDetailsUseCaseErrorMock()))
+    }
 }
     

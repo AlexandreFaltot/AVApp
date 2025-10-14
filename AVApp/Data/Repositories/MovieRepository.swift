@@ -9,12 +9,13 @@ protocol MovieRepositoryProtocol {
     func getPopularMovies(page: Int) async throws -> MDBMoviesResponse
     func getMovieDetails(id: Int) async throws -> MDBMovieDetails
     func getMovieCredits(id: Int) async throws -> MDBMovieCredits
+    func searchMovies(query: String) async throws -> MDBMoviesResponse
 }
 
 class MovieRepository: MovieRepositoryProtocol {
     private let restClient: any RestClientProtocol
 
-    init(restClient: RestClientProtocol = RestClient()) {
+    init(restClient: RestClientProtocol = Module.shared.resolve()) {
         self.restClient = restClient
     }
 
@@ -28,5 +29,9 @@ class MovieRepository: MovieRepositoryProtocol {
 
     func getMovieCredits(id: Int) async throws -> MDBMovieCredits {
         try await restClient.request(operation: MovieApiOperations.getMovieCredits(id: id))
+    }
+
+    func searchMovies(query: String) async throws -> MDBMoviesResponse {
+        try await restClient.request(operation: MovieApiOperations.searchMovies(query: query))
     }
 }

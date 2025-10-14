@@ -17,7 +17,7 @@ struct MDBMovie: Decodable {
     let overview: String
     let popularity: Double
     let posterPath: String?
-    let releaseDate: Date
+    let releaseDate: Date?
     let title: String
     let video: Bool
     let voteAverage: Double
@@ -68,7 +68,7 @@ struct MDBMovie: Decodable {
         self.overview = try container.decode(.overview)
         self.popularity = try container.decode(.popularity)
         self.posterPath = try? container.decode(.posterPath)
-        self.releaseDate = try container.decode(.releaseDate, using: DateFormatter.movieApiFormatter())
+        self.releaseDate = try? container.decode(.releaseDate, using: DateFormatter.movieApiFormatter())
         self.title = try container.decode(.title)
         self.video = try container.decode(.video)
         self.voteAverage = try container.decode(.voteAverage)

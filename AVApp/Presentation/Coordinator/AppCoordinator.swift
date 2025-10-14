@@ -24,16 +24,27 @@ final class AppCoordinator: Coordinator {
             return
         }
 
-        let viewModel = MovieListViewModel(getPopularMoviesUseCase: GetPopularMoviesUseCase())
+        let viewModel = MovieListViewModel()
         viewModel.onAskForMovieDetails = { [weak self] movie in
             self?.navigateToDetail(movie: movie)
+        }
+        viewModel.onAskForMovieSearch = { [weak self] in
+            self?.navigateToSearch()
         }
         viewController.viewModel = viewModel
         navigationController.viewControllers = [viewController]
     }
     
     func navigateToDetail(movie: AVMovie) {
-        let view = MovieDetailView(viewModel: MovieDetailScreenViewModel(movieId: movie.id))
+        let view = MovieDetailScreenView(viewModel: MovieDetailScreenViewModel(movieId: movie.id))
+        let detail = AVUIHostingViewController(rootView: view)
+        navigationController.pushViewController(detail, animated: true)
+    }
+
+    func navigateToSearch() {
+        let viewModel = MovieSearchScreenViewModel()
+        let view = MovieSearchScreenView(viewModel: viewModel,
+                                         onAskForMovieDetails: { [weak self] in self?.navigateToDetail(movie: $0) })
         let detail = AVUIHostingViewController(rootView: view)
         navigationController.pushViewController(detail, animated: true)
     }

@@ -18,8 +18,10 @@ struct AVMovieSnapshotView: View {
                 .cornerRadius(12.0)
                 .clipped()
             VStack(alignment: .leading, spacing: 0.0) {
-                Text(.releaseDate(releaseDate: DateFormatter.movieDateFormatter().string(from: movie.releaseDate)))
-                Spacer()
+                if let releaseDate = movie.releaseDate {
+                    Text(.releaseDate(releaseDate: DateFormatter.movieDateFormatter().string(from: releaseDate)))
+                    Spacer()
+                }
                 Text(.genre(genre: movie.genres.joined(separator: ", ")))
                 Spacer()
                 Text(.duration(duration: movie.runtime.asHourFormat()))
@@ -47,7 +49,9 @@ struct AVMovieSnapshotView: View {
 }
 
 #Preview {
-    AVMovieSnapshotView(movie: .mock)
-        .background(Color.avPrimary)
-        .frame(width: 375, height: 250)
+    PreviewContainer {
+        AVMovieSnapshotView(movie: .mock)
+            .background(Color.avPrimary)
+            .frame(width: 375, height: 250)
+    }
 }

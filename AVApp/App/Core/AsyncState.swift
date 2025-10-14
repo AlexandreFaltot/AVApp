@@ -8,6 +8,7 @@
 
 enum AsyncState<T> {
     case idle
+    case loading
     case success(result: T)
     case failure(error: Error)
 
@@ -24,8 +25,8 @@ enum AsyncState<T> {
         return true
     }
 
-    var isIdle: Bool {
-        guard case .idle = self else { return false }
+    var isLoading: Bool {
+        guard case .loading = self else { return false }
         return true
     }
 

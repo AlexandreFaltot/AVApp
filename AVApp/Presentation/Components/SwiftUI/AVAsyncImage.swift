@@ -10,10 +10,17 @@ import SwiftUI
 
 struct AVAsyncImage: View {
     let url: URL?
+    let cacheManager: ImageCacheManager
+
+    init(url: URL?,
+         cacheManager: ImageCacheManager = Module.shared.resolve()) {
+        self.url = url
+        self.cacheManager = cacheManager
+    }
 
     var body: some View {
         AVAsyncView {
-            try await ImageCacheManager.shared.imageFromCacheOrLoad(url)
+            try await cacheManager.imageFromCacheOrLoad(url)
         } content: { data in
             Image(uiImage: data)
                 .resizable()
