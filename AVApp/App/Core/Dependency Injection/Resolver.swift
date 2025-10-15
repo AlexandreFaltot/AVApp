@@ -6,6 +6,8 @@
 //
 
 
+import Foundation
+
 typealias Scope = KeyPath<Module, any Container>
 
 final class Module {
@@ -37,8 +39,6 @@ final class Module {
     }
 }
 
-import Foundation
-
 extension Module {
     func registerAppDependencies() {
         registerEngines()
@@ -47,9 +47,10 @@ extension Module {
     }
 
     private func registerEngines() {
+        register(URLSession.self) { _ in URLSession.shared }
         register(ImageCacheManager.self) { _ in ImageCacheManager() }
         register(NetworkCacheManager.self) { _ in NetworkCacheManager() }
-        register(RestClientProtocol.self) { _ in RestClient(urlSession: .shared) }
+        register(RestClientProtocol.self) { _ in RestClient() }
     }
 
     private func registerRepositories() {

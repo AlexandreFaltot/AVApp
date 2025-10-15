@@ -9,6 +9,7 @@ import UIKit
 
 @IBDesignable
 class AVUIRetryView: AVNibView {
+    // MARK: - IB properties
     @IBInspectable var localizedErrorMessageKey: String? {
         get { errorMessageLabel.localizedKey }
         set { errorMessageLabel.localizedKey = newValue }
@@ -17,7 +18,11 @@ class AVUIRetryView: AVNibView {
     @IBOutlet weak var retryButton: UIButton!
     @IBOutlet weak var errorMessageLabel: AVUILabel!
 
+    // MARK: - Public properties
+
     var onAskForRetry: (() -> Void)?
+
+    // MARK: - Lifecycle
 
     override func setupView() {
         super.setupView()

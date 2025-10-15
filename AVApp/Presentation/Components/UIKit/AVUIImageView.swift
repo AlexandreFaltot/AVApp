@@ -10,13 +10,16 @@ import UIKit
 
 @IBDesignable
 class AVUIImageView: UIImageView {
+    // MARK: - Private properties
     private let cacheManager: ImageCacheManager = Module.shared.resolve()
 
-    lazy var activityIndicator = {
+    private lazy var activityIndicator = {
         let indicator = UIActivityIndicatorView()
         indicator.tintColor = .avWhite
         return indicator
     }()
+
+    // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,10 +31,17 @@ class AVUIImageView: UIImageView {
         setupView()
     }
 
+    // MARK: - Public methods
+    
     func setupView() {
         addConstrainedSubview(activityIndicator)
     }
 
+    ///
+    /// Try to load image from `cacheManager` based on the given `url`
+    ///
+    /// - Parameter url: The url of the image
+    ///
     func setupImage(with url: URL?) {
         Task { @MainActor in
             self.activityIndicator.startAnimating()

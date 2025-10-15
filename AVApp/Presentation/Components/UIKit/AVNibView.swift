@@ -9,12 +9,16 @@ import UIKit
 
 @IBDesignable
 class AVNibView: UIView {
+    // MARK: - Private properties
+
     private(set) lazy var contentView: UIView? = {
         let nibName = String(describing: type(of: self))
         let bundle = Bundle(for: type(of: self))
 
         return bundle.loadNibNamed(nibName, owner: self, options: nil)?.first as? UIView
     }()
+
+    // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,6 +41,8 @@ class AVNibView: UIView {
         loadFromNib()
     }
 
+    // MARK: - Public methods
+    
     func setupView() {
         backgroundColor = .clear
     }

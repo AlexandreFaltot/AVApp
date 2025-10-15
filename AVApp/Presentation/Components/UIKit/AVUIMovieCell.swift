@@ -42,6 +42,11 @@ final class AVUIMovieCell: AVNibView {
         layer.shadowOpacity = 0.25
     }
 
+    ///
+    /// Sets up the view with the given model
+    ///
+    /// - Parameter model: The model that will be displayed by the view
+    ///
     func setup(with model: AVMovie) {
         self.titleLabel.text = model.title
         self.releaseDateLabel.text = model.releaseDate?

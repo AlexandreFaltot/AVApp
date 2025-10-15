@@ -9,6 +9,11 @@ import Combine
 import Foundation
 
 protocol GenreRepositoryProtocol {
+    ///
+    /// Gets the genres from the Movie API
+    ///
+    /// - Returns: The API response
+    ///
     func getGenres() async throws -> MDBGenreResponse
 }
 

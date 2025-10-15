@@ -8,6 +8,11 @@
 import Foundation
 
 extension Int {
+    ///
+    /// Gives the number as hour format, assuming the number represents minutes
+    ///
+    /// - Returns: A ``String`` in `HH'h'mm` format, localized
+    ///
     func asHourFormat() -> String {
         let hours = self / 60
         let minutes = self % 60

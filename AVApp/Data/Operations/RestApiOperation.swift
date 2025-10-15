@@ -32,7 +32,12 @@ class RestApiOperation<Body: Encodable, Response: Decodable> {
         self.cachePolicy = cachePolicy
         self.body = body
     }
-
+    
+    ///
+    /// Builds a ``URLRequest`` based on the information contained in the object
+    ///
+    /// - Returns: A ``URLRequest`` object represented by the object. Throws an error in case of wrong information
+    ///
     func buildUrlRequest() throws -> URLRequest {
         // Build url
         guard var url = URL(string: baseUrl + endpoint) else {

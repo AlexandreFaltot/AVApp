@@ -11,6 +11,7 @@ import SwiftUI
 
 @IBDesignable
 class AVUILabel: UILabel {
+    // MARK: - IB Properties
     @IBInspectable var style: Int = 1 {
         didSet {
             setStyle(style)
@@ -21,6 +22,8 @@ class AVUILabel: UILabel {
             setLocalizedKey(localizedKey)
         }
     }
+
+    // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,12 +40,21 @@ class AVUILabel: UILabel {
         setupView()
     }
 
+    // MARK: - Public methods
+
     func setupView() {
         setStyle(style)
         setLocalizedKey(localizedKey)
         self.textColor = UIColor.white
     }
 
+    // MARK: - Private methods
+    
+    ///
+    /// Sets the label style
+    ///
+    /// - Parameter style: The style to use for the label
+    ///
     private func setStyle(_ style: Int) {
         guard let style = AVTextStyle(rawValue: style) else {
             return
@@ -50,7 +62,12 @@ class AVUILabel: UILabel {
         font = style.font
     }
 
-    func setLocalizedKey(_ key: String?) {
+    ///
+    /// Sets the label text based on the given localized key
+    ///
+    /// - Parameter key: The key used for localization
+    ///
+    private func setLocalizedKey(_ key: String?) {
         text = localizedKey.map { NSLocalizedString($0, comment: "") }
     }
 }

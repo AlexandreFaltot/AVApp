@@ -10,6 +10,7 @@ private extension String {
 }
 
 extension Array where Element == MDBCastMember {
+    /// Gives only the elements which ``MDBCastMember.knowForDepartment`` are `"Acting"`
     var knownForActing: [MDBCastMember] {
         filter { $0.knownForDepartment == .actingDepartment }
     }

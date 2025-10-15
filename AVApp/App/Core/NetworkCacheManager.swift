@@ -12,6 +12,9 @@ class NetworkCacheManager {
         configureCache()
     }
 
+    ///
+    /// Setup the network cache for the app
+    ///
     func configureCache() {
         let memoryCapacity = 50 * 1024 * 1024  // 50 MB
         let diskCapacity = 100 * 1024 * 1024   // 100 MB

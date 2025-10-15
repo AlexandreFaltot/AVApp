@@ -47,13 +47,21 @@ class MovieListViewModel {
     }
 }
 
-// MARK: - Public methods
 @MainActor
 extension MovieListViewModel {
+
+    // MARK: - Public methods
+
+    ///
+    /// Initialize by fetching the first movies
+    ///
     func initialize() async {
         await refreshMovies()
     }
 
+    ///
+    /// Gets the first page of movies
+    ///
     func refreshMovies() async {
         self.currentPage = 1
 
@@ -66,6 +74,9 @@ extension MovieListViewModel {
 
     }
 
+    ///
+    /// Gets the next page of movies
+    ///
     func getNextMovies() async {
         do {
             let result = try await getPopularMoviesUseCase.execute(.init(page: currentPage + 1))
@@ -76,6 +87,13 @@ extension MovieListViewModel {
         }
     }
 
+    
+    ///
+    /// Gives the movie information at the given index
+    ///
+    /// - Parameter index: The index of the movie
+    /// - Returns: a ``AVMovie`` representing the movie
+    ///
     func movie(at index: Int) -> AVMovie? {
         guard case let .success(movies) = moviesResult else {
             return nil
@@ -83,7 +101,12 @@ extension MovieListViewModel {
 
         return movies[safe: index]
     }
-
+    
+    ///
+    /// Triggers the callback to inform the app to go to the movie detail screen
+    ///
+    /// - Parameter index: The index of the movie to display
+    ///
     func askForMovieDetails(at index: Int) {
         guard let movie = fetchedMovies[safe: index] else {
             return
@@ -91,7 +114,10 @@ extension MovieListViewModel {
 
         onAskForMovieDetails?(movie)
     }
-
+    
+    ///
+    /// Triggers the callback to inform the app to go to the movie search screen
+    ///
     func askForMovieSearch() {
         onAskForMovieSearch?()
     }

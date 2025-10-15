@@ -10,6 +10,10 @@ import Combine
 import SwiftUI
 
 extension Array {
+    ///
+    /// Gives the element at the given index if it exists.
+    /// Otherwise, gives `nil`
+    ///
     subscript(safe index: Int) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }

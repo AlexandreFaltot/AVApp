@@ -9,6 +9,7 @@ import UIKit
 
 @IBDesignable
 class AVUIFieldButton: UIButton {
+    // MARK: - IBInspectable properties
     @IBInspectable var localizedTitleKey: String = "" {
         didSet {
             setTitle(NSLocalizedString(localizedTitleKey, comment: ""), for: .normal)
@@ -21,6 +22,12 @@ class AVUIFieldButton: UIButton {
         }
     }
 
+    // MARK: - Private properties
+
+    private let innerShadowLayer: CALayer = CALayer()
+
+    // MARK: - Lifecycle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -31,11 +38,12 @@ class AVUIFieldButton: UIButton {
         setupView()
     }
 
-    override func prepareForInterfaceBuilder() {
-        setupView()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layoutInnerShadow()
     }
 
-    private let innerShadowLayer: CALayer = CALayer()
+    // MARK: - Public methods
 
     func setupView() {
         tintColor = .avWhite
@@ -50,22 +58,22 @@ class AVUIFieldButton: UIButton {
         configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0.0, leading: 12.0, bottom: 0.0, trailing: 12.0)
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layoutInnerShadow()
-    }
+    // MARK: - Private methdos
 
-    func layoutInnerShadow() {
+    ///
+    /// Layout the inner shadow of the view
+    ///
+    private func layoutInnerShadow() {
         innerShadowLayer.frame = bounds
 
-        // Shadow path
+        // Create the shadow path. It should be thick enough so a shadow is displayed
         let path = UIBezierPath(rect: innerShadowLayer.bounds.insetBy(dx: -12, dy: -12))
         let cutout = UIBezierPath(rect: innerShadowLayer.bounds).reversing()
         path.append(cutout)
         innerShadowLayer.shadowPath = path.cgPath
         innerShadowLayer.masksToBounds = true
 
-        // Shadow properties
+        // Set the shadow properties
         innerShadowLayer.shadowColor = UIColor.black.cgColor
         innerShadowLayer.shadowOffset = CGSize.init(width: 0, height: 4)
         innerShadowLayer.shadowOpacity = 0.25

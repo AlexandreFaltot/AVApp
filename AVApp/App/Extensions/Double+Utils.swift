@@ -8,6 +8,7 @@
 import Foundation
 
 extension Double {
+    /// Gives the number with 1 digit after decimal
     var roundedTo1Decimal: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

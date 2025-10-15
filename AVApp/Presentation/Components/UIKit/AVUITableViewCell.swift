@@ -8,8 +8,13 @@
 import UIKit
 
 class AVUITableViewCell<ContentView: UIView>: UITableViewCell {
+    // MARK: - Private properties
     private(set) lazy var content = ContentView()
-    var insets: UIEdgeInsets = .zero
+
+    // MARK: - Public properties
+    var insets: NSDirectionalEdgeInsets = .zero
+
+    // MARK: - Lifecycle
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -20,6 +25,8 @@ class AVUITableViewCell<ContentView: UIView>: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
     }
+    
+    // MARK: - Public methods
 
     func setupView() {
         self.backgroundColor = .clear

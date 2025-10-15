@@ -10,10 +10,15 @@ import UIKit
 @IBDesignable
 class AVUIMovieTableViewCell: AVUITableViewCell<AVUIMovieCell> {
     override func setupView() {
-        self.insets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        self.insets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
         super.setupView()
     }
 
+    ///
+    /// Sets up the view with the given model
+    ///
+    /// - Parameter model: The model that will be displayed by the view
+    ///
     func setup(with movie: AVMovie) {
         content.setup(with: movie)
     }

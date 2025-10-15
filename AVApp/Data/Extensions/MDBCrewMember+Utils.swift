@@ -10,6 +10,7 @@ private extension String {
 }
 
 extension Array where Element == MDBCrewMember {
+    /// Gives only the elements which ``MDBCrewMember.job`` are `"Director"`
     var directors: [MDBCrewMember] {
         filter { $0.job == .jobDirector }
     }

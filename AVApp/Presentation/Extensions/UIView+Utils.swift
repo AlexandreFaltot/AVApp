@@ -32,14 +32,22 @@ extension UIView {
 
 // MARK: - Utils
 extension UIView {
-    func addConstrainedSubview(_ view: UIView, with insets: UIEdgeInsets = .zero) {
+    
+    ///
+    /// Adds a subview and constrains it according to the insets given
+    ///
+    /// - Parameters:
+    ///   - view: The view to add
+    ///   - insets: The insets for the added view
+    ///
+    func addConstrainedSubview(_ view: UIView, with insets: NSDirectionalEdgeInsets = .zero) {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: topAnchor, constant: insets.top),
-            view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets.left),
+            view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets.leading),
             bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: insets.bottom),
-            trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.right)
+            trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.trailing)
         ])
     }
 }

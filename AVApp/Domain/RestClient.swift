@@ -27,29 +27,29 @@ protocol RestClientProtocol {
 class RestClient: RestClientProtocol {
     private let urlSession: URLSession
 
-    init(urlSession: URLSession) {
+    init(urlSession: URLSession = Module.shared.resolve()) {
         self.urlSession = urlSession
     }
 
     func request<Body: Encodable, Response: Decodable>(operation: RestApiOperation<Body, Response>) async throws -> Response {
         let urlRequest = try operation.buildUrlRequest()
-        print("[RestClient] Making request \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
+        Logger.debug("[RestClient] Making request \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
         if let headers = urlRequest.allHTTPHeaderFields {
-            print("[RestClient] with headers \(headers.description)")
+            Logger.debug("[RestClient] with headers \(headers.description)")
         }
         if let body = urlRequest.httpBody {
-            print("[RestClient] with body: \(String(data: body, encoding: .utf8) ?? "")")
+            Logger.debug("[RestClient] with body: \(String(data: body, encoding: .utf8) ?? "")")
         }
 
         do {
             let (data, _) = try await urlSession.data(for: urlRequest)
-            print("[RestClient] 🟢 Received response from \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
-            print("[RestClient] 🟢 Response received: \(String(data: data, encoding: .utf8) ?? "")")
+            Logger.debug("[RestClient] 🟢 Received response from \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
+            Logger.debug("[RestClient] 🟢 Response received: \(String(data: data, encoding: .utf8) ?? "")")
             let decodedData = try JSONDecoder().decode(Response.self, from: data)
             return decodedData
         } catch {
-            print("[RestClient] 🔴 Error with request \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
-            print("[RestClient] 🔴 Error received: \(error)")
+            Logger.debug("[RestClient] 🔴 Error with request \(urlRequest.httpMethod?.description ?? "") \(urlRequest.url?.absoluteString ?? "")")
+            Logger.debug("[RestClient] 🔴 Error received: \(error)")
             throw error
         }
     }
