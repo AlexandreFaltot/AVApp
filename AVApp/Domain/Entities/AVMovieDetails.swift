@@ -55,6 +55,17 @@ extension AVMovieDetails {
 
         return URL(string: "\(MDBConstants.baseImageUrl)/\(size.rawValue)\(backdropFilePath)")
     }
+
+    // MARK: - Accessibility
+    var snapshotAccessibilityLabel: String {
+        [releaseDate.map { String(localized: .releaseDate(releaseDate: $0.formatted(date: .long, time: .omitted))) },
+         String(localized: .genre(genre: genres.joined(separator: ", "))),
+         String(localized: .duration(duration: runtime.asHourFormat())),
+         String(localized: .directedBy(directorName: directors.joined(separator: ", "))),
+         String(localized: .movieRateAccessibility(rate: rating.roundedTo1Decimal, numberOfRates: Int32(numberOfRatings)))]
+            .compactMap { $0 }
+            .joined(separator: "\n")
+    }
 }
 
 #if DEBUG

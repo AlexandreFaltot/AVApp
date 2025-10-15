@@ -66,7 +66,7 @@ This project intentionally avoids external dependencies. The language is mature 
 
 ### iOS 16.0+
 
-The choice was made to target ios 16.0+ so we can use latest features without putting aside many people (<0.5% people are running below iOS 16)
+The choice was made to target ios 16.0+ so we can use latest features without putting aside many people (<0.52% devices are below iOS 16 at the moment)
 
 ---
 
@@ -74,9 +74,9 @@ The choice was made to target ios 16.0+ so we can use latest features without pu
 
 ### Prerequisites
 
-- Xcode 15.0 or later
+- Xcode 26.0 or later
 - iOS 16.0 or later
-- Swift 5.9+
+- Swift 6.2
 
 ### Setup
 
@@ -127,6 +127,10 @@ Create a LaunchScreen with a call to the MovieDB configuration endpoint. This wo
 
 Move API keys to backend for enhanced security.  API keys in xcconfig can be extracted from binary and keys can be visible in build logs. This can lead to potential security issues. Using a back-end service to get the API Key could fix this problem
 
-#### 5. **Automated UI Tests**
+#### 6. **Automated UI Tests**
 
 Create UI Tests to ensure the app navigation works nicely and screen are displayed properly.
+
+#### 7. **Accessibilty**
+
+Enhance accessibility for the app. Currently the app has the basic accessibility needs, but still there is more work to do so the app is compliant with best practice  

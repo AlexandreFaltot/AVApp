@@ -43,7 +43,7 @@ final class AVUIMovieCell: AVNibView {
     }
 
     ///
-    /// Sets up the view with the given model
+    /// Sets up the view and accessibility with the given model
     ///
     /// - Parameter model: The model that will be displayed by the view
     ///
@@ -57,6 +57,8 @@ final class AVUIMovieCell: AVNibView {
         if let posterUrl = model.posterUrl(.medium) {
             self.posterImageView.setupImage(with: posterUrl)
         }
+
+        self.accessibilityLabel = model.cellAccessibilityLabel
     }
 }
 

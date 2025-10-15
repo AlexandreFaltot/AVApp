@@ -35,12 +35,14 @@ struct DateFormatterExtensionTests {
     }
 
     @Test("movieApiFormatter should format date correctly")
-    func movieApiFormatterShouldFormatDateCorrectly() {
+    func movieApiFormatterShouldFormatDateCorrectly() throws {
         // Given
         let formatter = DateFormatter.movieApiFormatter()
         let calendar = Calendar.current
         let components = DateComponents(year: 2024, month: 3, day: 15)
-        let date = calendar.date(from: components)!
+        guard let date = calendar.date(from: components) else {
+            throw DateFormatterTestError.wrongDate
+        }
 
         // When
         let dateString = formatter.string(from: date)
@@ -57,4 +59,8 @@ struct DateFormatterExtensionTests {
         // Then
         #expect(formatter.dateStyle == .medium)
     }
+}
+
+enum DateFormatterTestError: Error {
+    case wrongDate
 }

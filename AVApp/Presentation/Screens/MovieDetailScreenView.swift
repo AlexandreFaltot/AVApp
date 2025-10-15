@@ -22,14 +22,9 @@ struct MovieDetailScreenView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .topLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(.avBackButton)
-                            .frame(width: 20, height: 28, alignment: .leading)
-                    }
-                    .padding(12.0)
-                    .offset(y: 10.0)
+                    AVBackButton()
+                        .padding(12.0)
+                        .offset(y: 10.0)
                 }
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0.0) {

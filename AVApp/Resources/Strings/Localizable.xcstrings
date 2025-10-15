@@ -21,6 +21,23 @@
         }
       }
     },
+    "Back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour"
+          }
+        }
+      }
+    },
     "date_and_genre" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -153,6 +170,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$(rate)@/5 (%2$(numberOfRates)d avis)"
+          }
+        }
+      }
+    },
+    "movie_rate_accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(rate)@ out of 5 stars (%2$(numberOfRates)d rates)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(rate)@ étoiles sur 5 (%2$(numberOfRates)d avis)"
+          }
+        }
+      }
+    },
+    "navigates_to_previous_screen_accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigates to the previous screen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naviguer vers l’écran précédent"
           }
         }
       }

@@ -15,7 +15,7 @@ class AVUIImageView: UIImageView {
 
     private lazy var activityIndicator = {
         let indicator = UIActivityIndicatorView()
-        indicator.tintColor = .avWhite
+        indicator.color = .avWhite
         return indicator
     }()
 

@@ -18,14 +18,9 @@ struct MovieSearchScreenView: View {
         VStack {
             AVHeaderView(title: String(localized: .appTitle)) {
                 HStack(spacing: 8.0) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(.avBackButton)
-                            .frame(width: 20, height: 28, alignment: .leading)
-                    }
-                    .padding(.vertical, 10.0)
-                    .padding(.trailing, 8.0)
+                    AVBackButton()
+                        .padding(.vertical, 10.0)
+                        .padding(.trailing, 8.0)
 
                     AVTextField(String(localized: .searchMovie),
                                 text: $viewModel.query,

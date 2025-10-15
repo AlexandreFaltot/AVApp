@@ -79,7 +79,7 @@ struct MDBMovieDetails: Decodable {
         self.posterPath = try? container.decode(.posterPath)
         self.productionCompanies = try container.decode(.productionCompanies)
         self.productionCountries = try container.decode(.productionCountries)
-        self.releaseDate = try container.decode(.releaseDate, using: .movieApiFormatter())
+        self.releaseDate = try? container.decode(.releaseDate, using: .movieApiFormatter())
         self.revenue = try container.decode(.revenue)
         self.runtime = try container.decode(.runtime)
         self.spokenLanguages = try container.decode(.spokenLanguages)

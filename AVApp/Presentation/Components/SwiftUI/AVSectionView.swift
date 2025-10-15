@@ -36,6 +36,7 @@ struct AVSectionView<ContentView: View>: View {
             content()
                 .padding(contentPadding)
         }
+        .accessibilityElement(children: .contain)
     }
 }
 

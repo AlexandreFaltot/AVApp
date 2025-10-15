@@ -38,7 +38,7 @@ class MovieListViewModel {
         moviesResult.isSuccess && !fetchedMovies.isEmpty
     }
     var shouldShowLoading: Bool {
-        moviesResult.isLoading
+        moviesResult.isLoading || moviesResult.isIdle
     }
 
     // MARK: - Init

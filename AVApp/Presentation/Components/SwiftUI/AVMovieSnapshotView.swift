@@ -34,6 +34,8 @@ struct AVMovieSnapshotView: View {
             .avStyle(.paragraph)
             .lineLimit(2)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(movie.snapshotAccessibilityLabel)
         .padding(.vertical, 8)
         .padding(.horizontal, 16)
         .background(background)

@@ -20,6 +20,9 @@ class AVUIMovieTableViewCell: AVUITableViewCell<AVUIMovieCell> {
     /// - Parameter model: The model that will be displayed by the view
     ///
     func setup(with movie: AVMovie) {
+        self.isAccessibilityElement = false
+        content.isAccessibilityElement = true
+        content.accessibilityTraits = .button
         content.setup(with: movie)
     }
 }

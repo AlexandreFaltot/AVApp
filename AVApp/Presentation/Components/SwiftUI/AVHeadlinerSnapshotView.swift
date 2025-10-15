@@ -16,11 +16,13 @@ struct AVHeadlinerSnapshotView: View {
                 .frame(height: 165)
                 .cornerRadius(12.0)
                 .clipped()
+                .accessibilityHidden(true)
             Text(headliner.name)
                 .avStyle(.paragraph)
             Text(headliner.characterName)
                 .avStyle(.caption)
         }
+        .accessibilityElement(children: .combine)
         .lineLimit(1)
         .frame(width: 143)
         .avCardDesign()

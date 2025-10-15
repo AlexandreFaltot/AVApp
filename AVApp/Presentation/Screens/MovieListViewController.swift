@@ -16,7 +16,7 @@ class MovieListViewController: UIViewController {
 
     lazy var tableFooterView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
-        activityIndicator.tintColor = .avWhite
+        activityIndicator.color = .avWhite
         return activityIndicator
     }()
 

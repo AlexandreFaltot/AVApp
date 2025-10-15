@@ -33,6 +33,8 @@ struct AVMovieSearchCell: View {
             }
             Spacer()
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(movie.cellAccessibilityLabel)
         .avCardDesign(borderWidth: 1.0, shadowOffset: .init(x: 0.0, y: 8.0))
     }
 

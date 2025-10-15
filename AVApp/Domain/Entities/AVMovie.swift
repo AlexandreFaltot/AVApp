@@ -51,6 +51,27 @@ extension AVMovie {
 
         return URL(string: "\(MDBConstants.baseImageUrl)/\(size.rawValue)\(posterFilePath)")
     }
+
+    // MARK: - Accessibility
+    var cellAccessibilityLabel: String {
+        [title,
+         releaseDate?.formatted(date: .long, time: .omitted),
+         genres.joined(separator: ", "),
+         String(localized: .movieRateAccessibility(rate: rating.roundedTo1Decimal, numberOfRates: Int32(numberOfRatings))),
+         synopsis]
+            .compactMap { $0 }
+            .joined(separator: "\n")
+    }
+
+    var searchCellAccessibilityLabel: String {
+        [title,
+         releaseDate?.formatted(date: .long, time: .omitted),
+         genres.joined(separator: ", "),
+         String(localized: .movieRateAccessibility(rate: rating.roundedTo1Decimal, numberOfRates: Int32(numberOfRatings)))]
+            .compactMap { $0 }
+            .joined(separator: "\n")
+    }
+
 }
 
 
